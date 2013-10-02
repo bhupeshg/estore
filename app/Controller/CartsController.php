@@ -54,13 +54,13 @@ class CartsController extends AppController
     public function view()
     {
         $this->checkFrontUserSession();
-        $this->set('data',$this->Cart->getCart($this->Session->read('uid')));
+        $this->set('data', $this->Cart->getCart($this->Session->read('uid')));
     }
 
     public function update()
     {
         $this->checkFrontUserSession();
-        $this->Cart->updateCart($this->request->data['Cart']['id'],$this->request->data['Cart']['qty']);
+        $this->Cart->updateCart($this->request->data['Cart']['id'], $this->request->data['Cart']['qty']);
         $this->Session->setFlash("Cart has been updated successfully", 'default', array(), 'success');
         $this->redirect(array('controller' => 'carts', 'action' => 'view'));
     }
@@ -72,5 +72,16 @@ class CartsController extends AppController
         $this->Cart->deleteProduct($cid);
         $this->Session->setFlash("Cart has been updated successfully", 'default', array(), 'success');
         $this->redirect(array('controller' => 'carts', 'action' => 'view'));
+    }
+
+
+    public function address()
+    {
+        $this->checkFrontUserSession();
+        if ($this->Cart->isCartEmpty($this->Session->read('uid'))) {
+            $this->Session->setFlash("You have empty cart", 'default', array(), 'failure');
+            $this->redirect(array('controller' => 'carts', 'action' => 'view'));
+            exit();
+        }
     }
 }

@@ -42,10 +42,9 @@
                                                                 product(s) in your
                                                                 shopping cart</i>
                                                         </td>
-                                                        <td align="right"><input name="input3"
-                                                                                 type="button"
-                                                                                 value="Proceed Checkout"
-                                                                                 class="atc_b"></td>
+                                                        <td align="right">
+                                                            <?php echo $this->Html->link('Proceed Checkout', array('controller' => 'carts', 'action' => 'address'), array('class' => 'atc_b', 'style' => 'text-decoration:none; font-size:14px;'));?>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -155,9 +154,9 @@
                                                                 <tr>
                                                                     <td align="left"><span
                                                                             class="paddingleft1">
-                                                                            <input name="input" type="button"
-                                                                                   value="Continue Shopping"
-                                                                                   class="greenb">
+                                                                            <?php
+                                                                            echo $this->Html->link('Continue Shopping', array('controller' => 'users', 'action' => 'productFamily'), array('class' => 'greenb', 'style' => 'text-decoration:none; font-size:14px;'));
+                                                                            ?>
                       </span></td>
                                                                     <?php
                                                                     if (!empty($data)) {
@@ -170,9 +169,7 @@
                                                                         </td>
                                                                         <td align="right">
                                                                         <span class="paddingleft1">
-                                                                            <input name="input3" type="button"
-                                                                                   value="Proceed Checkout"
-                                                                                   class="atc_b">
+                                                                            <?php echo $this->Html->link('Proceed Checkout', array('controller' => 'carts', 'action' => 'address'), array('class' => 'atc_b', 'style' => 'text-decoration:none; font-size:14px;'));?>
                                                                         </span>
                                                                         </td>
                                                                     <?php
