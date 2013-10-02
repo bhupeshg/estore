@@ -4,29 +4,29 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td align="left"><h1 class="heading">Login In To Your Account</h1></td>
-                    <td>
+                    <!--td>
                         <div class="breadcrum">
                             <ul>
                                 <li><a href="#">Cart</a></li>
                                 <li>
-                                    <?php echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
+                                    <?php //echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
                                 </li>
                                 <li><a href="#">Login</a></li>
                                 <li>
-                                    <?php echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
+                                    <?php //echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
                                 </li>
                                 <li><a href="#">Address</a></li>
                                 <li>
-                                    <?php echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
+                                    <?php //echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
                                 </li>
                                 <li><a href="#">Shipping</a></li>
                                 <li>
-                                    <?php echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
+                                    <?php //echo $this->Html->image('bredcrum_arrow.jpg', array('width' => 15, 'height' => '26'));?>
                                 </li>
                                 <li><a href="#">Payment</a></li>
                             </ul>
                         </div>
-                    </td>
+                    </td-->
                 </tr>
             </table>
         </td>

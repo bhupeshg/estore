@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td>
-            <?php echo $this->html->link('Add new Address', array('controller' => 'users', 'action' => 'addAddress'))?>
+            <?php echo $this->Html->link('Add new Address', array('controller' => 'users', 'action' => 'addAddress'))?>
         </td>
     </tr>
     <tr>
@@ -70,11 +70,11 @@
                                                                 <td align="center">
                                                                     <div>
                                                                         <p class="icssd">
-                                                                            <?php echo $this->html->link($this->html->image('icons/edit.png'), array('controller' => 'users', 'action' => 'addAddress', $address['Address']['id']), array('escape' => false))?>
+                                                                            <?php echo $this->Html->link($this->Html->image('icons/edit.png'), array('controller' => 'users', 'action' => 'addAddress', $address['Address']['id']), array('escape' => false))?>
                                                                         </p>
 
                                                                         <p class="icssd">
-                                                                            <?php echo $this->html->link($this->html->image('icons/1379634951_101.png'), array('controller' => 'users', 'action' => 'deleteAddress',$address['Address']['id']), array('escape' => false),'Are you sure you want to delete?')?>
+                                                                            <?php echo $this->Html->link($this->Html->image('icons/1379634951_101.png'), array('controller' => 'users', 'action' => 'deleteAddress',$address['Address']['id']), array('escape' => false),'Are you sure you want to delete?')?>
                                                                         </p>
                                                                     </div>
                                                                 </td>

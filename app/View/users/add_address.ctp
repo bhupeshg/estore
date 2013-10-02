@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#AddressCountry').change(function () {
@@ -21,12 +23,21 @@
             })
         });
 
+        $(function () {
+            var dob = $("#datepicker").attr('value');
+            $("#datepicker").datepicker();
+            $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+            $("#datepicker").datepicker("option", "changeYear", true);
+            $("#datepicker").datepicker("option", "yearRange", "1950:2012");
+            $("#datepicker").val(dob);
+        });
+
     });
 </script>
 <?php
 echo $this->Form->create('Users', array('controller' => 'users', 'action' => 'addAddress'));
-if($edit){
-echo $this->Form->hidden('Address.id');
+if ($edit) {
+    echo $this->Form->hidden('Address.id');
 }
 ?>
 <table width="925" border="0" cellspacing="0" cellpadding="0">
@@ -88,7 +99,7 @@ echo $this->Form->hidden('Address.id');
                                     <?php echo $this->Form->input('Address.e_mail', array('label' => false, 'div' => false, 'class' => 'forgerttxt', 'type' => 'email')); ?>
                                 </td>
                                 <td align="left">
-                                    <?php echo $this->Form->input('Address.cus_dob', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
+                                    <?php echo $this->Form->input('Address.cus_dob', array('label' => false, 'div' => false, 'class' => 'forgerttxt', 'id' => 'datepicker', 'type' => 'text', 'readonly' => true)); ?>
                                 </td>
                             </tr>
                             <tr>

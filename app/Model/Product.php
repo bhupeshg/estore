@@ -10,12 +10,16 @@ App::uses('AppModel', 'Model');
  * @package       app.Model
  */
 class Product extends AppModel {
-    public $primaryKey = 'matkl';
     public $actsAs = array('Containable');
 
     public $belongsTo = array(
         'ProductType' => array(
             'className' => 'ProductType',
             'foreignKey' => 'matkl'
-        ));
+        ),
+        'ProductAvailability' => array(
+            'className' => 'ProductAvailability',
+            'foreignKey' => 'matnr'
+        )
+    );
 }

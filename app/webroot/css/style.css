@@ -443,3 +443,28 @@ table.altrowstable1 td {
 .evenrowcolorr{
     background-color:#fff;
 }
+
+.bg_header
+{
+    background:url("../img/topbtnsbg.jpg") repeat-x;
+}
+
+.bg_header1
+{
+    background:url("../img/under-topbtnbg.jpg") repeat-x;
+}
+
+.bg_footer
+{
+    background:url("../img/bottom-gradient.jpg") repeat-x;
+}
+
+.bg_left
+{
+    background:url("../img/leftbar.jpg") repeat-y;
+}
+
+.bg_right
+{
+    background:url("../img/rightbar.jpg") repeat-y;
+}

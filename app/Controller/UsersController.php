@@ -43,6 +43,7 @@ class UsersController extends AppController
             if ($this->request->data) {
                 $this->User->set($this->request->data);
                 if ($this->User->validates()) {
+                    $this->User->recursive =2;
                     $data = $this->User->find('first', array('conditions' => array('User.e_mail' => $this->request->data['User']['e_mail'], 'User.password' => $this->request->data['User']['password'], 'Customer.konda != ' => 'AD', 'Customer.status ' => '1')));
                     if ($data) {
                         $this->Session->write('uid', $data['User']['id']);
@@ -51,6 +52,11 @@ class UsersController extends AppController
                         $this->Session->write('kunnr', $data['Customer']['kunnr']);
                         $this->Session->write('fname', $data['Customer']['firstname']);
                         $this->Session->write('lname', $data['Customer']['lastname']);
+                        if($data['Customer']['pltyp'] == null || $data['Customer']['pltyp'] == ''){
+                            $this->Session->write('discount', 0);
+                        }else{
+                            $this->Session->write('discount', $data['Customer']['Discount']['discount']);
+                        }
                         $this->redirect(array('controller' => 'users', 'action' => 'myAccount'));
                         exit();
                     } else {
@@ -62,6 +68,12 @@ class UsersController extends AppController
             $this->redirect(array('controller' => 'users', 'action' => 'myAccount'));
             exit();
         }
+    }
+
+    public function index()
+    {
+        $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        exit();
     }
 
     public function logout()
@@ -92,7 +104,17 @@ class UsersController extends AppController
                     $data = $this->User->find('first', array('conditions' => array('User.e_mail' => $this->request->data['User']['e_mail'], 'Customer.konda !=' => 'AD', 'Customer.status ' => '1')));
                     if ($data) {
                         // @todo: Setup the email correctly
-                        /*CakeEmail::deliver('bhupesh.gupta143@gmail.com', 'Forgot Password', 'Your Password', array('from' => 'support@unbrako.com'));*/
+                        $msg = "<html><body>Hello " . ucfirst($data['Customer']['firstname']) . ' ' . ucfirst($data['Customer']['lastname']) . ",<br/><br/> Please find below your account password. <br/><br/> Password: <b>" . $data['User']['password'] . "</b>
+                            <br/>
+                            <br/>
+                            We advise you to change your account password frequently to keep your account secure.
+                            <br/>
+                            <br/>
+                            Thanks & Regards,
+                            <br/> Support Team,
+                            <br/>
+                            Unbrako</body></html>";
+                        CakeEmail::deliver($data['User']['e_mail'], 'Forgot Password', $msg, array('from' => array('support@unbrako.com' => 'Support Unbrako'), 'emailFormat' => 'html'));
                         $this->Session->setFlash('An email containing your password has been sent to your email address.', 'default', array(), 'success');
                         $this->redirect(array('controller' => 'users', 'action' => 'login'));
                         exit();
@@ -181,7 +203,7 @@ class UsersController extends AppController
                         $cust_errors['stceg'][0] = 'Please select the right file type';
                     } else {
                         if (!$error) {
-                            $filename = time() . $file_type;
+                            $filename = time() . '.' . $file_type;
                             move_uploaded_file($this->data['Customer']['stceg']['tmp_name'], WWW_ROOT . 'files' . DS . $filename);
                             $this->request->data['Customer']['stceg'] = $filename;
                         }
@@ -189,7 +211,6 @@ class UsersController extends AppController
                 } elseif ($user_type == 3) {
                     $this->request->data['Customer']['konda'] = 'OE';
                     $cust_errors = array();
-                    $file_type = array();
                     if (!empty($this->request->data['Customer']['stceg']['name'])) {
                         $file_type = explode('/', $this->request->data['Customer']['stceg']['type']);
                         $file_type = $file_type[1];
@@ -209,17 +230,42 @@ class UsersController extends AppController
                             $cust_errors['stceg'][0] = 'Please select the right file type';
                         } else {
                             if (!$oem_error) {
-                                $filename = time() . $file_type;
+                                $filename = time() . '.' . $file_type;
                                 move_uploaded_file($this->data['Customer']['stceg']['tmp_name'], WWW_ROOT . 'files' . DS . $filename);
                                 $this->request->data['Customer']['stceg'] = $filename;
                             }
                         }
                     }
+                } elseif ($user_type == 4) {
+                    $this->request->data['Customer']['konda'] = 'GV';
+                    $this->request->data['Customer']['pltyp'] = 16;
+                    unset($this->request->data['Customer']['stceg']);
                 }
                 if (!$error && !$oem_error) {
                     if ($this->User->saveAssociated($this->request->data, array('deep' => true, 'validate' => 'first'))) {
                         // @todo Set up the proper success message and send email
-                        $this->Session->setFlash('Thanks for registering with us. An email has been sent containing your login credentials. Please login with your details below.', 'default', array(), 'success');
+                        if ($user_type == 1) {
+                            $msg = "<html><body>Hello " . ucfirst($this->request->data['Customer']['firstname']) . ' ' . ucfirst($this->request->data['Customer']['lastname']) . ",<br/><br/> Thanks for registering with us. Please click on below link  to activate your account. Activating your account will help you to enjoy our services without any interruption. <br/><br/> <a href='unbrako.us/jkt/estore/users/changeStatus/" . base64_encode($this->User->Customer->id) .
+                                "'>Verify
+                        Your Account</a>
+                        <br/>
+                        <br/>
+                        Thanks & Regards,
+                        <br/> Support Team,
+                        <br/>
+                        Unbrako</body></html>";
+                            CakeEmail::deliver($this->request->data['User']['e_mail'], 'Thanks for Registration', $msg, array('from' => array('support@unbrako.com' => 'Support Unbrako'), 'emailFormat' => 'html'));
+                            $this->Session->setFlash('Thanks for registering with us. A verification email has been sent for account activation. Please activate your account and enjoy our services.', 'default', array(), 'success');
+                        } else {
+                            $msg = "<html><body>Hello " . ucfirst($this->request->data['Customer']['firstname']) . ' ' . ucfirst($this->request->data['Customer']['lastname']) . ",<br/><br/> Thanks for registering with us. Our team will verify your account and update you with in 48 hrs. Thanks for your patience. <br/>
+                        <br/>
+                        Thanks & Regards,
+                        <br/> Support Team,
+                        <br/>
+                        Unbrako</body></html>";
+                            CakeEmail::deliver($this->request->data['User']['e_mail'], 'Thanks for Registration', $msg, array('from' => array('support@unbrako.com' => 'Support Unbrako'), 'emailFormat' => 'html'));
+                            $this->Session->setFlash('Thanks for registering with us. An email has been sent to you. Your account will be verified soon.', 'default', array(), 'success');
+                        }
                         $this->redirect(array('controller' => 'users', 'action' => 'login'));
                         exit();
                     }
@@ -231,7 +277,7 @@ class UsersController extends AppController
                     $this->User->Customer->validationErrors = array_merge($this->User->Customer->validationErrors, $cust_errors);
                 }
             } else {
-                if ($type == 1 || $type == 2 || $type == 3) {
+                if ($type == 1 || $type == 2 || $type == 3 || $type == 4) {
                     $this->set('user_type', $type);
                 } else {
                     $this->Session->setFlash('Please select the right user type to get registered', 'default', array(), 'failure');
@@ -373,18 +419,38 @@ class UsersController extends AppController
         $this->checkFrontUserSession();
         $this->__isLocationSelected();
         $this->loadModel('Product');
-        $this->set('products', $this->Product->find('all', array('conditions' => array('Product.matkl' => $type_id))));
+        $products = $this->Product->find('all', array('conditions' => array('Product.matkl' => $type_id),
+            'group' => array('Product.mvgr2', 'Product.mvgr3', 'Product.mvgr4')));
+        $this->set('products', $products);
         $this->set('type_id', $type_id);
     }
 
 
-    public function products($type_id = null)
+    public function products($product_id = null)
     {
         $this->checkFrontUserSession();
         $this->__isLocationSelected();
         $this->loadModel('Product');
-        $this->set('products', $this->Product->find('all', array('conditions' => array('Product.matkl' => $type_id))));
-        $this->set('type_id', $type_id);
+        $product = $this->Product->find('first', array('conditions' => array('Product.id' => $product_id)));
+        if ($product) {
+            $options = array();
+            $options['joins'] = array(
+                array('table' => 'product_availability',
+                    'alias' => 'ProductAvailability',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'Product.matnr = ProductAvailability.matnr'
+                    )
+                )
+            );
+            $options['contain'] = array('ProductType');
+            $options['conditions'] = array('Product.mvgr2' => $product['Product']['mvgr2'], 'Product.mvgr3' => $product['Product']['mvgr3'], 'Product.mvgr4' => $product['Product']['mvgr4']);
+            $options['fields'] = array('Product.*', 'ProductAvailability.*', 'ProductType.*');
+            $products = $this->Product->find('all', $options);
+            $this->set('products', $products);
+        } else {
+            $this->redirect(array('controller' => 'users', 'action' => 'chooseLocation'));
+        }
     }
 
     public function admin_login()
@@ -414,6 +480,7 @@ class UsersController extends AppController
     {
         $this->checkUserSession();
         $this->layout = 'admin';
+        $this->redirect(array('controller' => 'users', 'action' => 'listCustomers', 'admin' => true));
     }
 
     public function admin_logout()
@@ -432,7 +499,17 @@ class UsersController extends AppController
                     $data = $this->User->find('first', array('conditions' => array('User.e_mail' => $this->request->data['User']['e_mail'], 'Customer.konda' => 'AD', 'Customer.status' => '1')));
                     if ($data) {
                         // @todo: Setup the email correctly
-                        /*CakeEmail::deliver('bhupesh.gupta143@gmail.com', 'Forgot Password', 'Your Password', array('from' => 'support@unbrako.com'));*/
+                        $msg = "<html><body>Hello " . ucfirst($data['Customer']['firstname']) . ' ' . ucfirst($data['Customer']['lastname']) . ",<br/><br/> Please find below your account password. <br/><br/> Password: <b>" . $data['User']['password'] . "</b>
+                            <br/>
+                            <br/>
+                            We advise you to change your account password frequently to keep your account secure.
+                            <br/>
+                            <br/>
+                            Thanks & Regards,
+                            <br/> Support Team,
+                            <br/>
+                            Unbrako</body></html>";
+                        CakeEmail::deliver($data['User']['e_mail'], 'Forgot Password', $msg, array('from' => array('support@unbrako.com' => 'Support Unbrako'), 'emailFormat' => 'html'));
                         $this->Session->setFlash('An email containing the password has been sent to your email address.', 'default', array(), 'success');
                         $this->redirect(array('controller' => 'users', 'action' => 'login', 'admin' => true));
                         exit();
@@ -500,7 +577,16 @@ class UsersController extends AppController
             if ($this->request->data['Customer']['konda'] != 'RL') {
                 if (isset($this->request->data['Customer']['verify_status']) && $this->request->data['Customer']['verify_status'] == '2') {
                     // @todo: Setup the email correctly
-                    /*CakeEmail::deliver('bhupesh.gupta143@gmail.com', 'Forgot Password', 'Your Password', array('from' => 'support@unbrako.com'));*/
+                    $msg = "<html><body>Hello " . ucfirst($this->request->data['Customer']['firstname']) . ' ' . ucfirst($this->request->data['Customer']['lastname']) . ",<br/><br/> Thanks for registering with us. Please click on below link to activate your account. Activating your account will help you to enjoy our services without any interruption. <br/><br/> <a href='unbrako.us/jkt/estore/users/changeStatus/" . base64_encode($this->request->data['Customer']['id']) .
+                        "'>Verify
+                        Your Account</a>
+                        <br/>
+                        <br/>
+                        Thanks & Regards,
+                        <br/> Support Team,
+                        <br/>
+                        Unbrako</body></html>";
+                    CakeEmail::deliver($this->request->data['User']['e_mail'], 'Thanks for Registration', $msg, array('from' => array('support@unbrako.com' => 'Support Unbrako'), 'emailFormat' => 'html'));
                     $this->request->data['Customer']['link_expire'] = 0;
                     $this->Customer->save($this->request->data);
                     $this->Session->setFlash('User has been updated successfully. And a verification email has been sent to the user for their account activation.', 'default', array(), 'success');
@@ -518,6 +604,10 @@ class UsersController extends AppController
             $user = $this->User->find('first', array('conditions' => array('User.id' => $id)));
             if ($user) {
                 $this->request->data = $user;
+                $this->loadModel('Discount');
+                $price_list = $this->Discount->find('list', array('fields' => array('Discount.id', 'Discount.discount_final'), 'conditions' => array('Discount
+                .cust_cat' => $user['Customer']['konda'])));
+                $this->set('price_list', $price_list);
             } else {
                 $this->Session->setFlash('User can not be found. Please select right user.', 'default', array(), 'failure');
                 $this->redirect(array('controller' => 'users', 'action' => 'listCustomers', 'admin' => true));

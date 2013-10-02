@@ -28,11 +28,11 @@
                 ?>
                 <div class="productmain">
                     <div class="pro-img">
-                        <?php echo $this->html->image('product_group/' . $group['ProductGroup']['image'], array('width' => 175, 'height' => 135));?>
+                        <?php echo $this->Html->image('product_group/' . $group['ProductGroup']['image'], array('width' => 175, 'height' => 135));?>
                     </div>
                     <div class="pro-desc"><?php echo $group['ProductGroup']['parentgroupid'];?></div>
                     <div
-                        class="pro-link"><?php echo $this->html->link('View Product Categories', array('controller'=>'users','action'=> 'productCategory', $group['ProductGroup']['parentgroupid']))?>
+                        class="pro-link"><?php echo $this->Html->link('View Product Categories', array('controller'=>'users','action'=> 'productCategory', $group['ProductGroup']['parentgroupid']))?>
                     </div>
                 </div>
                 <?php

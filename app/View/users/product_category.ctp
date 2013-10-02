@@ -28,11 +28,11 @@
                     ?>
                     <div class="productmain">
                         <div class="pro-img">
-                            <?php echo $this->html->image('product_category/' . $cat['ProductType']['image'], array('width' => 175, 'height' => 135));?>
+                            <?php echo $this->Html->image('product_category/' . $cat['ProductType']['image'], array('width' => 175, 'height' => 135));?>
                         </div>
                         <div class="pro-desc"><?php echo $cat['ProductType']['wgbez60-matkl'];?></div>
                         <div class="pro-link">
-                            <?php echo $this->html->link('View Products', array('controller' => 'users', 'action' => 'products', $cat['ProductType']['matkl']))?>
+                            <?php echo $this->Html->link('View Products', array('controller' => 'users', 'action' => 'productDetail', $cat['ProductType']['matkl']))?>
                         </div>
                     </div>
                     <?php
