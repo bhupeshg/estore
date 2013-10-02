@@ -68,6 +68,7 @@
                                                     </tr>
                                                     <?php
                                                     if (!empty($data)) {
+                                                        $total = 0;
                                                         foreach ($data as $val) {
                                                             ?>
                                                             <tr>
@@ -102,6 +103,7 @@
                                                                 <td><?php echo '$' . $val['Cart']['qty'] * $val['Product']['umrez'] * $price;?></td>
                                                             </tr>
                                                         <?php
+                                                            $total = $total + ($val['Cart']['qty'] * $val['Product']['umrez'] * $price);
                                                         }
                                                     } else {
                                                     ?>
@@ -131,17 +133,11 @@
                                                                     <td height="30" align="right"
                                                                         class="black12"><strong>Subtotal:</strong>
                                                                     </td>
-                                                                    <td width="100" align="right"
-                                                                        class="black12">$197.00
+                                                                    <td width="100" align="middle"
+                                                                        class="black12">$<?php echo $total;?>
                                                                     </td>
                                                                 </tr>
                                                             </table>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td height="30" align="right"
-                                                            class="blue12">Estimate Shipping &amp;
-                                                            Tax
                                                         </td>
                                                     </tr>
                                                     <tr>
