@@ -64,22 +64,22 @@ if($this->Paginator->sortDir() == 'asc'){
 										</tr>
 										<tr>
 											<td>
-												<?php echo $this->Form->input("wgbez60-mvgr3", array("type" => "select", "options" => $gradeList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Grade/Quality-")); ?>
+												<?php echo $this->Form->input("wgbez60-mvgr3", array("type" => "select", "options" => $gradeList, "class" => "chosen-select forgerttxt width200", "label" => false, "div" => false, "empty" => "-Grade/Quality-")); ?>
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<?php echo $this->Form->input("wgbez60-mvgr4", array("type" => "select", "options" => $finishingList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Surface Finish/Coating-")); ?>
+												<?php echo $this->Form->input("wgbez60-mvgr4", array("type" => "select", "options" => $finishingList, "class" => "chosen-select forgerttxt width200", "label" => false, "div" => false, "empty" => "-Surface Finish/Coating-")); ?>
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<?php echo $this->Form->input("wgbez60-mvgr2", array("type" => "select", "options" => $threadList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Thread-")); ?>
+												<?php echo $this->Form->input("wgbez60-mvgr2", array("type" => "select", "options" => $threadList, "class" => "chosen-select forgerttxt width200", "label" => false, "div" => false, "empty" => "-Thread-")); ?>
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<?php echo $this->Form->input("wgbez60-mvgr5", array("type" => "select", "options" => $standardList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Standard-")); ?>
+												<?php echo $this->Form->input("wgbez60-mvgr5", array("type" => "select", "options" => $standardList, "class" => "chosen-select forgerttxt width200", "label" => false, "div" => false, "empty" => "-Standard-")); ?>
 											</td>
 										</tr>
 										<tr>

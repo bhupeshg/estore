@@ -483,3 +483,6 @@ table.altrowstable1 td {
 .wite15{ color:#FFF;}
 .cursor{ cursor:pointer;}
 .dnone{ display:none;}
+
+/** Drop Downs **/
+.width200{ width:200px !important; }

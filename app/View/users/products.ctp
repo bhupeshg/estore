@@ -82,12 +82,12 @@
 										</tr>
 										<tr>
 											<td>
-												<?php echo $this->Form->input("bezei", array("type" => "select", "options" => $diaList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Dia-")); ?>
+												<?php echo $this->Form->input("bezei", array("type" => "select", "options" => $diaList, "class" => "chosen-select forgerttxt width200", "label" => false, "div" => false, "empty" => "-Dia-")); ?>
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<?php echo $this->Form->input("groes", array("type" => "select", "options" => $lengthList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Length-")); ?>
+												<?php echo $this->Form->input("groes", array("type" => "select", "options" => $lengthList, "class" => "chosen-select forgerttxt width200", "label" => false, "div" => false, "empty" => "-Length-")); ?>
 											</td>
 										</tr>
 										<tr>
