@@ -921,4 +921,28 @@ class UsersController extends AppController
         print_r($reponse);
         die;
     }
+    
+    
+    public function test1()
+    {
+        App::import('Vendor', 'Authorize');
+        $loginId = "3Ax3yP4Y";
+        $transactionKey = "22h5MdpH6ym46DCx";
+        $serviceUrl = "https://test.authorize.net/gateway/transact.dll";
+        //$serviceUrl = "https://secure.authorize.net/gateway/transact.dll"; For LIVE
+        $authorize = new Authorize($serviceUrl, $loginId, $transactionKey, "AUTH_CAPTURE");
+        $reponse = $authorize->makePayment(
+                    array('first_name'=>"Harish",
+                          'last_name'=>"Kumar",
+                          'address'=>"6704 Ivy Lane",
+                          'state'=>"WA",
+                          'zip_code'=>"20770",
+                          'cc_number'=>'4111111111111111',
+                          'exp_date'=>'0315',
+                          'amount'=>'19.19')
+                    );
+        echo "<pre>";
+        print_r($reponse);
+        die;
+    }
 }
