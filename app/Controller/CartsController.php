@@ -84,4 +84,29 @@ class CartsController extends AppController
             exit();
         }
     }
+
+    public function orderReview()
+    {
+        $this->checkFrontUserSession();
+        $this->Session->write('ship_id',1);
+        if ($this->Cart->isCartEmpty($this->Session->read('uid'))) {
+            $this->Session->setFlash("You have empty cart", 'default', array(), 'failure');
+            $this->redirect(array('controller' => 'carts', 'action' => 'view'));
+            exit();
+        } elseif (!$this->Session->read('ship_id')) {
+            $this->Session->setFlash("Please select shipping address for you order", 'default', array(), 'failure');
+            $this->redirect(array('controller' => 'carts', 'action' => 'address'));
+            exit();
+        } else {
+            $this->loadModel('User');
+            $billing = $this->User->find('first', array('conditions' => array('User.id' => $this->Session->read('uid'))));
+            $this->loadModel('Address');
+            $shipping = $this->Address->find('first', array('conditions' => array('User.id' => $this->Session->read('ship_id'))));
+            $this->set('billing', $billing);
+            $this->set('shipping', $shipping);
+            $this->set('cart', $this->Cart->getCart($this->Session->read('uid')));
+            $tax = 20;
+            $this->set('tax', $tax);
+        }
+    }
 }
