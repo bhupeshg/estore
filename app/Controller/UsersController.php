@@ -43,7 +43,7 @@ class UsersController extends AppController
             if ($this->request->data) {
                 $this->User->set($this->request->data);
                 if ($this->User->validates()) {
-                    $this->User->recursive =2;
+                    $this->User->recursive = 2;
                     $data = $this->User->find('first', array('conditions' => array('User.e_mail' => $this->request->data['User']['e_mail'], 'User.password' => $this->request->data['User']['password'], 'Customer.konda != ' => 'AD', 'Customer.status ' => '1')));
                     if ($data) {
                         $this->Session->write('uid', $data['User']['id']);
@@ -52,9 +52,9 @@ class UsersController extends AppController
                         $this->Session->write('kunnr', $data['Customer']['kunnr']);
                         $this->Session->write('fname', $data['Customer']['firstname']);
                         $this->Session->write('lname', $data['Customer']['lastname']);
-                        if($data['Customer']['pltyp'] == null || $data['Customer']['pltyp'] == ''){
+                        if ($data['Customer']['pltyp'] == null || $data['Customer']['pltyp'] == '') {
                             $this->Session->write('discount', 0);
-                        }else{
+                        } else {
                             $this->Session->write('discount', $data['Customer']['Discount']['discount']);
                         }
                         $this->redirect(array('controller' => 'users', 'action' => 'myAccount'));
@@ -558,7 +558,8 @@ class UsersController extends AppController
                     'alias' => 'ProductAvailability',
                     'type' => 'INNER',
                     'conditions' => array(
-                        'Product.matnr = ProductAvailability.matnr'
+                        'Product.matnr = ProductAvailability.matnr',
+                        'ProductAvailability.vkorg' => 1100
                     )
                 )
             );
@@ -898,5 +899,26 @@ class UsersController extends AppController
                 $this->Session->setFlash('Password changed successfully', 'default', array(), 'success');
             }
         }
+    }
+
+    public function test()
+    {
+        App::import('Vendor', 'Ups');
+        $upsAccessnumber = "4CBE3F3AFCC21495";
+        $upsUsername = " UnbrakoAlvin";
+        $upsPassword = "abc@USA123";
+        $upsShippernumber = "";
+        $ups = new Ups($upsAccessnumber, $upsUsername, $upsPassword, $upsShippernumber);
+        $serviceMethod = "03"; //"Ground"=>"03"
+        $fromZip = "90210";
+        $toZip = "20770";
+        $length = "0";
+        $width = "0";
+        $height = "0";
+        $weight = "5";
+        $reponse = $ups->getRate($serviceMethod, $fromZip, $toZip, $length, $width, $height, $weight);
+        echo "<pre>";
+        print_r($reponse);
+        die;
     }
 }

@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#addToCart').click(function () {
+        $('.addToCart').click(function () {
             var matnr = $(this).attr('rel');
             var qty = $('#' + matnr + '_qty').val();
             qty = $.trim(qty);
@@ -188,7 +188,7 @@
                                                                 <div>
                                                                     <p class="btnsd">
                                                                         <input name="" type="button" id="addToCart"
-                                                                               value="Add to Basket" class="atc_b"
+                                                                               value="Add to Basket" class="atc_b addToCart"
                                                                                rel="<?php echo $product['Product']['matnr']; ?>">
                                                                     </p>
 

@@ -29,9 +29,9 @@ class Cart extends AppModel
     {
         $data = $this->find('first', array('conditions' => array('Cart.user_id' => $uid)));
         if ($data) {
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     }
 
