@@ -439,7 +439,8 @@ class UsersController extends AppController
                     'alias' => 'ProductAvailability',
                     'type' => 'INNER',
                     'conditions' => array(
-                        'Product.matnr = ProductAvailability.matnr'
+                        'Product.matnr = ProductAvailability.matnr',
+                        'ProductAvailability.vkorg' => 1100
                     )
                 )
             );

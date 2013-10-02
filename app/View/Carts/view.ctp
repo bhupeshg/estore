@@ -1,7 +1,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#update').click(function () {
-            $('#'+$(this).attr('rel')).submit();
+            $('#' + $(this).attr('rel')).submit();
         });
     })
 </script>
@@ -39,7 +39,7 @@
                                                     <tr>
                                                         <td class="black12"><i>You have
                                                                 <strong><?php echo count($data);?></strong>
-                                                                products in your
+                                                                product(s) in your
                                                                 shopping cart</i>
                                                         </td>
                                                         <td align="right"><input name="input3"
@@ -67,8 +67,8 @@
                                                         <th>Item Total</th>
                                                     </tr>
                                                     <?php
+                                                    $total = 0;
                                                     if (!empty($data)) {
-                                                        $total = 0;
                                                         foreach ($data as $val) {
                                                             ?>
                                                             <tr>
@@ -90,8 +90,10 @@
                                                                                rel="<?php echo $val['Cart']['id']; ?>">Update</a>
                                                                         </p>
 
-                                                                        <p class=" nrm"><a href="#"
-                                                                                           class="red12">Delete</a>
+                                                                        <p class=" nrm">
+                                                                            <?php
+                                                                            echo $this->Html->link('Delete', array('controller' => 'carts', 'action' => 'deleteProduct/' . $val['Cart']['id']), array('class' => 'red12', 'escape' => false), 'Are you sure you want to remove this product?');
+                                                                            ?>
                                                                         </p>
 
                                                                     </div>
@@ -102,14 +104,14 @@
                                                                 </td>
                                                                 <td><?php echo '$' . $val['Cart']['qty'] * $val['Product']['umrez'] * $price;?></td>
                                                             </tr>
-                                                        <?php
+                                                            <?php
                                                             $total = $total + ($val['Cart']['qty'] * $val['Product']['umrez'] * $price);
                                                         }
                                                     } else {
                                                     ?>
                                                     <tr>
-                                                        <td align="center" colspan="4">
-                                                            Sorry no product available
+                                                        <td align="center" colspan="6">
+                                                            Your cart is empty.
                                                         </td>
                                                         <?php
                                                         }
@@ -153,16 +155,29 @@
                                                                 <tr>
                                                                     <td align="left"><span
                                                                             class="paddingleft1">
-                      <input name="input" type="button" value="Continue Shopping" class="greenb">
+                                                                            <input name="input" type="button"
+                                                                                   value="Continue Shopping"
+                                                                                   class="greenb">
                       </span></td>
-                                                                    <td align="center"><span
-                                                                            class="paddingleft1">
-                      <input name="input2" type="button" value="Email Cart" class="submit_b">
-                      </span></td>
-                                                                    <td align="right"><span
-                                                                            class="paddingleft1">
-                      <input name="input3" type="button" value="Proceed Checkout" class="atc_b">
-                      </span></td>
+                                                                    <?php
+                                                                    if (!empty($data)) {
+                                                                        ?>
+                                                                        <td align="center">
+                                                                        <span class="paddingleft1">
+                                                                            <input name="input2" type="button"
+                                                                                   value="Email Cart" class="submit_b">
+                                                                        </span>
+                                                                        </td>
+                                                                        <td align="right">
+                                                                        <span class="paddingleft1">
+                                                                            <input name="input3" type="button"
+                                                                                   value="Proceed Checkout"
+                                                                                   class="atc_b">
+                                                                        </span>
+                                                                        </td>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
                                                                 </tr>
                                                             </table>
                                                         </td>

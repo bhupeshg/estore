@@ -61,7 +61,16 @@ class CartsController extends AppController
     {
         $this->checkFrontUserSession();
         $this->Cart->updateCart($this->request->data['Cart']['id'],$this->request->data['Cart']['qty']);
-        $this->Session->setFlash("Product quantity has been updated successfully", 'default', array(), 'success');
+        $this->Session->setFlash("Cart has been updated successfully", 'default', array(), 'success');
+        $this->redirect(array('controller' => 'carts', 'action' => 'view'));
+    }
+
+
+    public function deleteProduct($cid)
+    {
+        $this->checkFrontUserSession();
+        $this->Cart->deleteProduct($cid);
+        $this->Session->setFlash("Cart has been updated successfully", 'default', array(), 'success');
         $this->redirect(array('controller' => 'carts', 'action' => 'view'));
     }
 }
