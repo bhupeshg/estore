@@ -18374,3 +18374,21 @@ Request URL: /unbrako/js/toplinks.js
 Stack Trace:
 #0 C:\wamp\www\unbrako\app\webroot\index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2013-10-02 08:31:05 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /estore/js/toplinks.js
+Stack Trace:
+#0 C:\wamp\www\estore\app\webroot\index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-10-02 08:36:32 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /estore/js/toplinks.js
+Stack Trace:
+#0 C:\wamp\www\estore\app\webroot\index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
