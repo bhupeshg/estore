@@ -723,4 +723,23 @@ class UsersController extends AppController
             }
         }
     }
+    
+    public function test(){
+        App::import('Vendor', 'Ups');
+        $upsAccessnumber = "4CBE3F3AFCC21495";
+        $upsUsername = " UnbrakoAlvin";
+        $upsPassword = "abc@USA123";
+        $upsShippernumber = "";
+        $ups = new Ups($upsAccessnumber,$upsUsername,$upsPassword,$upsShippernumber);
+        $serviceMethod = "03";//"Ground"=>"03"
+        $fromZip = "00000";
+        $toZip = "20770";
+        $length = "0";
+        $width = "0";
+        $height = "0";
+        $weight = "5";
+        $reponse = $ups->getRate($serviceMethod,$fromZip,$toZip,$length,$width,$height,$weight);
+        echo "<pre>";print_r($reponse);
+        die;
+    }
 }
