@@ -131,7 +131,7 @@ if($this->Paginator->sortDir() == 'asc'){
 														</th>
                                                         <th>
 															<?php echo $this->Paginator->sort('Product.wgbez60-mvgr2', 'Thread');
-															if($this->Paginator->sortKey() == 'Product.wgbez60-mvgr3'){
+															if($this->Paginator->sortKey() == 'Product.wgbez60-mvgr2'){
 																echo ' '.$image; 
 															}
 															?>
