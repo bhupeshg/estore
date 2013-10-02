@@ -72,58 +72,40 @@
                                     <tr>
                                         <td height="10"></td>
                                     </tr>
-                                    <tr>
-                                        <td class="leftnavheading"><strong>Search</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="10"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="textfield" id="textfield">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td height="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="paddingleft1"><input name="" type="button" value="Submit"
-                                                                        class="submit_b"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="leftnavheading"><strong>Refine your search by:</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="10"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><select data-placeholder="Choose a Country..." class="chosen-select"
-                                                    multiple style="width:200px;" tabindex="4">
-                                                <option value=""></option>
-                                                <option value="United States">United States</option>
-                                                <option value="United Kingdom">United Kingdom</option>
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="10"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><select data-placeholder="Choose a Country..." class="chosen-select"
-                                                    multiple style="width:200px;" tabindex="4">
-                                                <option value=""></option>
-                                                <option value="United States">United States</option>
-                                                <option value="United Kingdom">United Kingdom</option>
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input name="" type="button" value="Submit" class="submit_b"></td>
-                                    </tr>
+                                    <?php echo $this->element('left'); ?>
+                                    <?php echo $this->Form->create('Product',array('url'=>$newUrl, 'id' => 'searchProductDetail', 'method'=>'POST')); ?>
+										<tr>
+											<td class="leftnavheading"><strong>Refine your search by:</strong></td>
+										</tr>
+										<tr>
+											<td height="10"></td>
+										</tr>
+										<tr>
+											<td>
+												<?php echo $this->Form->input("bezei", array("type" => "select", "options" => $diaList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Dia-")); ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<?php echo $this->Form->input("groes", array("type" => "select", "options" => $lengthList, "class" => "chosen-select width200", "label" => false, "div" => false, "empty" => "-Length-")); ?>
+											</td>
+										</tr>
+										<tr>
+											<td height="10"></td>
+										</tr>
+										<tr>
+											<td>
+												<?php echo $this->Form->submit("Submit",array("class"=>"submit_b","label"=>false,"div"=>false)); ?> &nbsp; 
+												<?php 
+												$resetPage = "/users/products/";
+												if(isset($this->params['pass'][0]) && !empty($this->params['pass'][0])){
+													$resetPage.= $this->params['pass'][0];
+												}
+												
+												echo $this->Form->button('Reset',array('type' => 'button', 'onclick' => "location.href='".$this->Html->url($resetPage)."'","label"=>false,"div"=>false)); ?>
+											</td>
+										</tr>
+										<?php echo $this->Form->end();?>
                                 </table>
                             </td>
                             <td valign="top">

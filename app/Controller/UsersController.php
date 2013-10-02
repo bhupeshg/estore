@@ -419,8 +419,113 @@ class UsersController extends AppController
         $this->checkFrontUserSession();
         $this->__isLocationSelected();
         $this->loadModel('Product');
-        $products = $this->Product->find('all', array('conditions' => array('Product.matkl' => $type_id),
-            'group' => array('Product.mvgr2', 'Product.mvgr3', 'Product.mvgr4')));
+        $productsL = $this->Product->find('all', array('conditions' => array('Product.matkl' => $type_id), 'group' => array('Product.mvgr2', 'Product.mvgr3', 'Product.mvgr4')));
+		
+		$criteria='';
+		//Show fields listing in the left Panel
+		$gradeList = array();
+		$finishingList = array();
+		$threadList = array();
+		$standardList = array();
+		if(isset($productsL) && !empty($productsL)){
+			foreach($productsL as $singleProduct){
+				
+				//Grade/Quality
+				if(!in_array($singleProduct['Product']['wgbez60-mvgr3'],$gradeList)){
+					$gradeList[$singleProduct['Product']['wgbez60-mvgr3']] = $singleProduct['Product']['wgbez60-mvgr3'];
+				}
+				
+				//Surface Finish/Coating
+				if(!in_array($singleProduct['Product']['wgbez60-mvgr4'],$finishingList)){
+					$finishingList[$singleProduct['Product']['wgbez60-mvgr4']] = $singleProduct['Product']['wgbez60-mvgr4'];
+				}
+				
+				//Thread
+				if(!in_array($singleProduct['Product']['wgbez60-mvgr2'],$threadList)){
+					$threadList[$singleProduct['Product']['wgbez60-mvgr2']] = $singleProduct['Product']['wgbez60-mvgr2'];
+				}
+				
+				//Standard
+				if(!in_array($singleProduct['Product']['wgbez60-mvgr5'],$standardList)){
+					$standardList[$singleProduct['Product']['wgbez60-mvgr5']] = $singleProduct['Product']['wgbez60-mvgr5'];
+				}
+			}
+		}
+		$this->set(compact('gradeList','finishingList','threadList','standardList'));
+		//Show fields listing in the left Panel
+		
+		
+		
+		
+		$urlString = "/";
+      	if(isset($this->params['pass'][0]) && !empty($this->params['pass'][0])){
+			$urlString.= $this->params['pass'][0]."/";
+		}
+		$criteria .= " Product.matkl = '".$type_id."'";
+      	if(isset($this->data['Product']) || !empty($this->params['named'])){
+			
+			//Grade/Quality
+			if(isset($this->data['Product']['wgbez60-mvgr3']) && ($this->data['Product']['wgbez60-mvgr3']!='')){
+				$criteria .= " AND Product.wgbez60-mvgr3 LIKE '".$this->data['Product']['wgbez60-mvgr3']."'";
+				$this->set("wgbez60-mvgr3", $this->data['Product']['wgbez60-mvgr3']);
+				$urlString.= "wgbez60-mvgr3:".$this->data['Product']['wgbez60-mvgr3']."/";
+			}elseif(isset($this->params['named']['wgbez60-mvgr3']) && $this->params['named']['wgbez60-mvgr3']!=''){
+				if(!isset($this->data['Product']['wgbez60-mvgr3'])){
+					$criteria .= " AND Product.wgbez60-mvgr3 LIKE '".$this->params['named']['wgbez60-mvgr3']."'";
+					$this->set("wgbez60-mvgr3", $this->params['named']['wgbez60-mvgr3']);
+					$urlString.= "wgbez60-mvgr3:".$this->params['named']['wgbez60-mvgr3']."/";
+				}
+			}
+			
+			//Surface Finish/Coating
+			if(isset($this->data['Product']['wgbez60-mvgr4']) && ($this->data['Product']['wgbez60-mvgr4']!='')){
+				$criteria .= " AND Product.wgbez60-mvgr4 LIKE '".$this->data['Product']['wgbez60-mvgr4']."'";
+				$this->set("wgbez60-mvgr4", $this->data['Product']['wgbez60-mvgr4']);
+				$urlString.= "wgbez60-mvgr4:".$this->data['Product']['wgbez60-mvgr4']."/";
+			}elseif(isset($this->params['named']['wgbez60-mvgr4']) && $this->params['named']['wgbez60-mvgr4']!=''){
+				if(!isset($this->data['Product']['wgbez60-mvgr4'])){
+					$criteria .= " AND Product.wgbez60-mvgr4 LIKE '".$this->params['named']['wgbez60-mvgr4']."'";
+					$this->set("wgbez60-mvgr4", $this->params['named']['wgbez60-mvgr4']);
+					$urlString.= "wgbez60-mvgr4:".$this->params['named']['wgbez60-mvgr4']."/";
+				}
+			}
+			
+			//Thread
+			if(isset($this->data['Product']['wgbez60-mvgr2']) && ($this->data['Product']['wgbez60-mvgr2']!='')){
+				$criteria .= " AND Product.wgbez60-mvgr2 LIKE '".$this->data['Product']['wgbez60-mvgr2']."'";
+				$this->set("wgbez60-mvgr2", $this->data['Product']['wgbez60-mvgr2']);
+				$urlString.= "wgbez60-mvgr2:".$this->data['Product']['wgbez60-mvgr2']."/";
+			}elseif(isset($this->params['named']['wgbez60-mvgr2']) && $this->params['named']['wgbez60-mvgr2']!=''){
+				if(!isset($this->data['Product']['wgbez60-mvgr2'])){
+					$criteria .= " AND Product.wgbez60-mvgr2 LIKE '".$this->params['named']['wgbez60-mvgr2']."'";
+					$this->set("wgbez60-mvgr2", $this->params['named']['wgbez60-mvgr2']);
+					$urlString.= "wgbez60-mvgr2:".$this->params['named']['wgbez60-mvgr2']."/";
+				}
+			}
+			
+			//Standard
+			if(isset($this->data['Product']['wgbez60-mvgr5']) && ($this->data['Product']['wgbez60-mvgr5']!='')){
+				$criteria .= " AND Product.wgbez60-mvgr5 LIKE '".$this->data['Product']['wgbez60-mvgr5']."'";
+				$this->set("wgbez60-mvgr5", $this->data['Product']['wgbez60-mvgr5']);
+				$urlString.= "wgbez60-mvgr5:".$this->data['Product']['wgbez60-mvgr5']."/";
+			}elseif(isset($this->params['named']['wgbez60-mvgr5']) && $this->params['named']['wgbez60-mvgr5']!=''){
+				if(!isset($this->data['Product']['wgbez60-mvgr5'])){
+					$criteria .= " AND Product.wgbez60-mvgr5 LIKE '".$this->params['named']['wgbez60-mvgr5']."'";
+					$this->set("wgbez60-mvgr5", $this->params['named']['wgbez60-mvgr5']);
+					$urlString.= "wgbez60-mvgr5:".$this->params['named']['wgbez60-mvgr5']."/";
+				}
+			}
+		}
+		$newUrl = "productDetail".$urlString;
+		$this->set('newUrl',$newUrl);
+		
+		$this->paginate = array(
+			'page'=> 1,
+			'group' => array('Product.mvgr2', 'Product.mvgr3', 'Product.mvgr4'),
+			'limit'=>'1',
+		);
+		$products = $this->paginate('Product',$criteria);
+		
         $this->set('products', $products);
         $this->set('type_id', $type_id);
     }
@@ -431,7 +536,21 @@ class UsersController extends AppController
         $this->checkFrontUserSession();
         $this->__isLocationSelected();
         $this->loadModel('Product');
-        $product = $this->Product->find('first', array('conditions' => array('Product.id' => $product_id)));
+		
+		if(isset($this->data['Product']['m_id']) && !empty($this->data['Product']['m_id'])){
+			$product = $this->Product->find('first', array('conditions' => array('Product.matnr' => $this->data['Product']['m_id'])));
+		}elseif(isset($this->params['named']['m_id']) && !empty($this->params['named']['m_id'])){
+			$product = $this->Product->find('first', array('conditions' => array('Product.matnr' => $this->params['named']['m_id'])));
+		}else{
+			$product = $this->Product->find('first', array('conditions' => array('Product.id' => $product_id)));
+		}
+		
+		
+		
+		
+		
+		
+        
         if ($product) {
             $options = array();
             $options['joins'] = array(
@@ -446,7 +565,64 @@ class UsersController extends AppController
             $options['contain'] = array('ProductType');
             $options['conditions'] = array('Product.mvgr2' => $product['Product']['mvgr2'], 'Product.mvgr3' => $product['Product']['mvgr3'], 'Product.mvgr4' => $product['Product']['mvgr4']);
             $options['fields'] = array('Product.*', 'ProductAvailability.*', 'ProductType.*');
-            $products = $this->Product->find('all', $options);
+			
+			$productsL = $this->Product->find('all', $options);
+			//Show fields listing in the left Panel
+			$diaList = array();
+			$lengthList = array();
+			if(isset($productsL) && !empty($productsL)){
+				foreach($productsL as $singleProduct){
+					
+					//Dia
+					if(!in_array($singleProduct['Product']['bezei'],$diaList)){
+						$diaList[$singleProduct['Product']['bezei']] = $singleProduct['Product']['bezei'];
+					}
+					
+					//Length
+					if(!in_array($singleProduct['Product']['groes'],$lengthList)){
+						$lengthList[$singleProduct['Product']['groes']] = $singleProduct['Product']['groes'];
+					}
+				}
+			}
+			$this->set(compact('diaList','lengthList'));
+			//Show fields listing in the left Panel
+			
+			$urlString = "/";
+			if(isset($this->params['pass'][0]) && !empty($this->params['pass'][0])){
+				$urlString.= $this->params['pass'][0]."/";
+			}
+			if(isset($this->data['Product']) || !empty($this->params['named'])){
+				//Dia
+				if(isset($this->data['Product']['bezei']) && ($this->data['Product']['bezei']!='')){
+					$options['conditions']['Product.bezei'] = $this->data['Product']['bezei'];
+					$urlString.= "bezei:".$this->data['Product']['bezei']."/";
+				}elseif(isset($this->params['named']['bezei']) && $this->params['named']['bezei']!=''){
+					if(!isset($this->data['Product']['bezei'])){
+						$options['conditions']['Product.bezei'] = $this->params['named']['bezei'];
+						$urlString.= "bezei:".$this->params['named']['bezei']."/";
+					}
+				}
+				
+				//Length
+				if(isset($this->data['Product']['groes']) && ($this->data['Product']['groes']!='')){
+					$options['conditions']['Product.groes'] = $this->data['Product']['groes'];
+					$urlString.= "groes:".$this->data['Product']['groes']."/";
+				}elseif(isset($this->params['named']['groes']) && $this->params['named']['groes']!=''){
+					if(!isset($this->data['Product']['groes'])){
+						$options['conditions']['Product.groes'] = $this->params['named']['groes'];
+						$urlString.= "groes:".$this->params['named']['groes']."/";
+					}
+				}
+			}
+			$newUrl = "products".$urlString;
+			
+			$this->set('newUrl',$newUrl);
+			
+			
+            $options['limit'] = '1';
+			$products = $this->Product->find('all', $options);
+			//$products = $this->paginate('Product',$options);
+			
             $this->set('products', $products);
         } else {
             $this->redirect(array('controller' => 'users', 'action' => 'chooseLocation'));
