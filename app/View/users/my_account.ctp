@@ -10,26 +10,26 @@
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->html->link('Continue Shopping',array('controller'=>'users','action'=>'productConfirmation'))?></td>
+            <td align="left"><?php echo $this->Html->link('Continue Shopping',array('controller'=>'users','action'=>'productConfirmation'))?></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->html->link('Address Book',array('controller'=>'users','action'=>'addressBook'))?></td>
+            <td align="left"><?php echo $this->Html->link('Address Book',array('controller'=>'users','action'=>'addressBook'))?></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->html->link('Change Password',array('controller'=>'users',
+            <td align="left"><?php echo $this->Html->link('Change Password',array('controller'=>'users',
                     'action'=>'changePassword'))?></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->html->link('Logout',array('controller'=>'users',
+            <td align="left"><?php echo $this->Html->link('Logout',array('controller'=>'users',
                     'action'=>'logout'))?></td>
         </tr>
     </table>

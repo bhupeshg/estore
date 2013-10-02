@@ -28,7 +28,7 @@
             animatedefault: false, //Should contents open by default be animated into view?
             persiststate: true, //persist state of opened contents within browser session?
             toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
-            togglehtml: ["suffix", "<img src='/unbrako/img/plus.gif' class='statusicon' />", "<img src='/unbrako/img/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
+            togglehtml: ["suffix", "<img src='../img/plus.gif' class='statusicon' />", "<img src='../img/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
             animatespeed: "fast", //speed of animation: integer in milliseconds (ie: 200), or keywords "fast", "normal", or "slow"
             oninit: function (headers, expandedindices) { //custom code to run when headers have initalized
                 //do nothing
@@ -49,12 +49,10 @@
 <section class="main-bdybg c-both">
     <nav class="nav">
         <div class="sidebarmenu">
-
             <a class="menuitem submenuheader" href="">Manage Customers</a>
-
             <div class="submenu">
                 <ul>
-                    <li><?php echo $this->Html->link('Create Customer',array('controller'=>'users','action'=>'create','admin'=>true))?></li>
+                    <!--li><?php //echo $this->Html->link('Create Customer',array('controller'=>'users','action'=>'create','admin'=>true))?></li-->
                     <li><?php echo $this->Html->link('View Customers',array('controller'=>'users','action'=>'listCustomers','admin'=>true))?></li>
                 </ul>
             </div>

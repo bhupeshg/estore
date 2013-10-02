@@ -20,10 +20,8 @@
             <td align="center" height="2"></td>
         </tr>
         <tr>
-            <td align="center" background="/unbrako/img/topbtnsbg.jpg" height="45">
-                <a class="link1" href="index.htm">
-                    <span style="text-decoration: none; font-weight:700"> HOME</span>
-                </a>
+            <td align="center" class="bg_header" height="45">
+                <?php echo $this->Html->link('HOME',array('controller'=>'users','action'=>'login'),array('class'=>'link1','style'=>"text-decoration: none; font-weight:700;"))?>
                                 <span style="font-weight:700">&nbsp;
                                     <font face="Trebuchet MS" style="font-size: 9pt" color="#FFFFFF"> |</font>
                                     &nbsp;
@@ -39,7 +37,7 @@
                                     &nbsp;
                                     <font face="Trebuchet MS" style="font-size: 9pt" color="#FFFFFF"> |</font>
                                     &nbsp;
-                                    <?php echo $this->html->link('PRODUCTS',array('controller'=>'users','action'=>'chooseLocation'),array('class'=>'link1','style'=>"text-decoration: none;"))?>
+                                    <?php echo $this->Html->link('PRODUCTS',array('controller'=>'users','action'=>'chooseLocation'),array('class'=>'link1','style'=>"text-decoration: none;"))?>
                                     &nbsp;
                                     <font face="Trebuchet MS" style="font-size: 9pt" color="#FFFFFF"> |</font>
                                     &nbsp;
@@ -69,7 +67,7 @@
             </td>
         </tr>
         <tr>
-            <td align="center" background="/unbrako/img/under-topbtnbg.jpg" height="12"></td>
+            <td align="center" background="../img/under-topbtnbg.jpg" height="12"></td>
         </tr>
         </tbody>
     </table>

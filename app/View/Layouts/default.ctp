@@ -45,12 +45,11 @@ stainless steel fasteners, E CODE, LOT CODE, socket head cap screws'
     echo $this->fetch('script');
     ?>
 </head>
-<body topmargin="10" leftmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0"
-      onLoad="openOffersDialog();">
+<body topmargin="10" leftmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
 <div align="center">
     <table border="0" cellpadding="0" style="border-collapse: collapse" width="1002" height="20">
         <tr>
-            <td width="21" valign="top" background="/unbrako/img/leftbar.jpg"></td>
+            <td width="21" valign="top" class="bg_left"></td>
             <td width="960" valign="top">
                 <div align="center" id="header_main">
                     <?php echo $this->element('header');?>
@@ -62,7 +61,7 @@ stainless steel fasteners, E CODE, LOT CODE, socket head cap screws'
                     <?php echo $this->fetch('content'); ?>
                 </div>
             </td>
-            <td width="21" valign="top" background="/unbrako/img/rightbar.jpg"></td>
+            <td width="21" valign="top" class="bg_right"></td>
         </tr>
     </table>
 </div>

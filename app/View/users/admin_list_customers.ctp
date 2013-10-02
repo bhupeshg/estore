@@ -24,7 +24,7 @@
             <td><?php echo ucwords($customer['Customer']['firstname'] . ' ' . $customer['Customer']['lastname']);?></td>
             <td>
                 <?php
-                $types = array('RL' => 'Retail', 'DR' => 'Dealer', 'OE' => 'OEM');
+                $types = array('RL' => 'Retail', 'DR' => 'Dealer', 'OE' => 'OEM', 'GV' => 'Govt. Emp.');
                 echo $types[$customer['Customer']['konda']];
                 ?>
             </td>
@@ -32,8 +32,8 @@
             <td><?php echo $customer['Customer']['house_no'] . ' ' . $customer['Customer']['street'] . ' ,' . $customer['Customer']['City']['bezei_city'] . ' ,' . $customer['Customer']['district'] . ' ,' . $customer['Customer']['State']['bezei'] . ' ,' . $customer['Customer']['Country']['landx'];?></td>
             <td>
                 <?php
-                if(!empty($customer['Customer']['stceg']))
-                echo $this->html->link('Licence','/files/'.$customer['Customer']['stceg']);
+                if (!empty($customer['Customer']['stceg']))
+                    echo $this->Html->link('Licence', '/files/' . $customer['Customer']['stceg']);
                 ?>
             </td>
             <td>
@@ -44,14 +44,14 @@
             </td>
             <td>
                 <?php
-                if (in_array($customer['Customer']['konda'], array('OE', 'DR'))) {
+                if (in_array($customer['Customer']['konda'], array('OE', 'DR', 'GV'))) {
                     $status = array('0' => 'Pending', '1' => 'In Progress', '2' => 'Verified', '3' => 'Blacklisted');
                     echo $status[$customer['Customer']['verify_status']];
                 }
                 ?>
             </td>
             <td>
-                <?php echo $this->html->link($this->html->image('user_edit.png', array('border' => 0)), array('controller' => 'users', 'action' => 'editUser',$customer['User']['id'], 'admin' => true), array('escape' => false))?>
+                <?php echo $this->Html->link($this->Html->image('user_edit.png', array('border' => 0)), array('controller' => 'users', 'action' => 'editUser', $customer['User']['id'], 'admin' => true), array('escape' => false))?>
             </td>
         </tr>
     <?php }?>

@@ -2,7 +2,7 @@
     <tbody>
     <tr>
         <td width="21" align="center" valign="top"></td>
-        <td align="center" background="/unbrako/img/bottom-gradient.jpg" height="80" width="960">
+        <td align="center" class="bg_footer"  height="80" width="960">
 
 
             <div align="center">

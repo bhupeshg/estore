@@ -54,6 +54,10 @@ class Customer extends AppModel
         'BusinessType' => array(
             'className' => 'BusinessType',
             'foreignKey' => 'brsch'
+        ),
+        'Discount' => array(
+            'className' => 'Discount',
+            'foreignKey' => 'pltyp'
         )
     );
 

@@ -108,3 +108,5 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 CakePlugin::load('DebugKit');
+
+define('ONLINE_DISCOUNT','2');

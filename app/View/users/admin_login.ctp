@@ -18,7 +18,7 @@ echo $this->Html->css('admin_login');
 
 <body>
 <header class="c-both">
-    <?php echo $this->html->image('logo.jpg',array('width'=>150,'height'=>'34'));?>
+    <?php echo $this->Html->image('logo.jpg',array('width'=>150,'height'=>'34'));?>
     <h1 class="site-heading">Admin Panel</h1>
 </header>
 <section class="main-bdybg c-both">
