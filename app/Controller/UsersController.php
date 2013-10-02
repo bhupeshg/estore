@@ -732,7 +732,7 @@ class UsersController extends AppController
         $upsShippernumber = "";
         $ups = new Ups($upsAccessnumber,$upsUsername,$upsPassword,$upsShippernumber);
         $serviceMethod = "03";//"Ground"=>"03"
-        $fromZip = "00000";
+        $fromZip = "90210";
         $toZip = "20770";
         $length = "0";
         $width = "0";
