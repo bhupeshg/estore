@@ -1,8 +1,20 @@
 <script type="text/javascript">
-    function ShowHide(id) {
+    function ShowHide(id, origin, destination) {
         if (id == 1) {
-            $('#article1').show();
-            $('#article2').hide();
+            $.ajax({
+                type: "GET",
+                url: "/estore/users/calculateShipping/" + origin + "/" + destination,
+                success: function (result) {
+                    var result = JSON.parse(result);
+                    if (result.status) {
+                        $('#shipinng_charges').val(result.msg);
+                        $('#article1').show();
+                        $('#article2').hide();
+                    } else {
+                        alert(result.msg);
+                    }
+                }
+            })
         } else {
             $('#article2').show();
             $('#article1').hide();
@@ -190,7 +202,14 @@
                         ?>
                         <tr>
                             <td height="30" align="right" class="black12"><strong>Total:</strong></td>
-                            <td align="center" class="black12">$<?php echo number_format($total + $tax, 2);?></td>
+                            <td align="center" class="black12">
+                                $
+                                <?php
+                                echo number_format($total + $tax, 2);
+                                $_SESSION['tax'] = $tax;
+                                $_SESSION['total'] = $total;
+                                ?>
+                            </td>
                         </tr>
                     </table>
                 </td>
@@ -209,9 +228,9 @@
 </tr>
 <tr>
     <td width="100%" valign="top">
-        <a class="pickup cursor" onClick="javascript: ShowHide(2);">Pickup</a>
+        <a class="pickup cursor" onClick="javascript: ShowHide(2,0,0);">Pickup</a>
         or
-        <a class="dlivery cursor" onClick="javascript: ShowHide(1);">Delivery</a>
+        <a class="dlivery cursor" onClick="javascript: ShowHide(1,<?php echo $origin; ?>,<?php echo $destination; ?>);">Delivery</a>
     </td>
 </tr>
 
@@ -225,11 +244,15 @@
                             <tr>
                                 <td width="214" rowspan="3" align="right" class="black12">&nbsp;</td>
                                 <td width="86" height="30" align="right" class="black12"><strong>Shipping:</strong></td>
-                                <td width="100" align="center" class="black12">$12</td>
+                                <td width="100" align="center" class="black12">
+                                    <span id="shipping_charge"></span>
+                                </td>
                             </tr>
                             <tr>
                                 <td height="30" align="right" class="black12"><strong>Grand Total:</strong></td>
-                                <td align="center" class="black12">$1234.00</td>
+                                <td align="center" class="black12">
+                                    <span id="grand_total"></span>
+                                </td>
                             </tr>
                         </table>
                     </td>

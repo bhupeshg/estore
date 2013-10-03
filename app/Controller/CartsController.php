@@ -34,14 +34,14 @@ class CartsController extends AppController
 
     public $uses = array();
 
-    public function addToCart($matnr, $qty)
+    public function addToCart($matnr, $qty, $loc)
     {
         $this->checkFrontUserSession();
         $this->layout = false;
         $this->loadModel('Product');
         $product = $this->Product->find('first', array('conditions' => array('Product.matnr' => $matnr), 'contain' => false));
         if ($product) {
-            $this->Cart->addToCart($product['Product']['id'], $qty, $this->Session->read('uid'));
+            $this->Cart->addToCart($product['Product']['id'], $qty, $loc, $this->Session->read('uid'));
             echo json_encode(array('status' => true, 'msg' => 'Product has been added successfully'));
             exit;
         } else {
@@ -82,6 +82,19 @@ class CartsController extends AppController
             $this->Session->setFlash("You have empty cart", 'default', array(), 'failure');
             $this->redirect(array('controller' => 'carts', 'action' => 'view'));
             exit();
+        } else {
+            $this->loadModel('User');
+            $billing = $this->User->find('first', array('conditions' => array('User.id' => $this->Session->read('uid')), 'contain' => array('Customer' => array('Country', 'State'))));
+            $this->loadModel('Address');
+            $shippingAddressList = $this->Address->find('list', array('fields' => array('Address.id', 'Address.address_list')));
+            //pr($billing);
+            $this->set('billing', $billing);
+            $this->set('shippingAddressList', $shippingAddressList);
+
+            App::import('model', 'Location');
+            $country = new Location();
+            $countries = $country->find('list', array('fields' => array('land1', 'landx')));
+            $this->set('countries', $countries);
         }
     }
 
@@ -98,12 +111,15 @@ class CartsController extends AppController
             $this->redirect(array('controller' => 'carts', 'action' => 'address'));
             exit();
         } else {
+            //Setting up billing and shipping address
             $this->loadModel('User');
             $billing = $this->User->find('first', array('conditions' => array('User.id' => $this->Session->read('uid')), 'contain' => array('Customer' => array('Country', 'State'))));
             $this->loadModel('Address');
             $shipping = $this->Address->find('first', array('conditions' => array('Address.id' => $this->Session->read('ship_id'))));
             $this->set('billing', $billing);
             $this->set('shipping', $shipping);
+
+            // Finding tax for shipping postal code or setting it to 0
             $this->loadModel('Tax');
             $taxes = $this->Tax->find('first', array('conditions' => array('Tax.pstlz' => $shipping['Address']['postl_cod1'])));
             if ($taxes) {
@@ -111,7 +127,16 @@ class CartsController extends AppController
             } else {
                 $this->set('tax', 0);
             }
-            $this->set('cart', $this->Cart->getCart($this->Session->read('uid')));
+
+            //Get cart content
+            $cart = $this->Cart->getCart($this->Session->read('uid'));
+            $this->set('cart', $cart);
+
+            // Setting postal code of plant and shipping to calculate shipping.
+            $this->loadModel('Plant');
+            $origin = $this->Plant->find('first', array('conditions' => array('Plant.id' => $cart[0]['Cart']['ship_location'])));
+            $this->set('origin', $origin['Plant']['pstlz']);
+            $this->set('destination', $shipping['Address']['postl_cod1']);
         }
     }
 }

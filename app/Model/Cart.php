@@ -36,7 +36,7 @@ class Cart extends AppModel
     }
 
 
-    function addToCart($pid, $qty, $uid)
+    function addToCart($pid, $qty, $loc, $uid)
     {
         $result = $this->isProductExist($pid, $uid);
         if ($result['status']) {
@@ -45,6 +45,7 @@ class Cart extends AppModel
             $this->data['Cart']['product_id'] = $pid;
             $this->data['Cart']['qty'] = $qty;
             $this->data['Cart']['user_id'] = $uid;
+            $this->data['Cart']['ship_location'] = $loc;
             $this->save($this->data);
         }
     }
