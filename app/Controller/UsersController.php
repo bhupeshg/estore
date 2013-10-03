@@ -32,14 +32,8 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController
 {
     public $uses = array('User');
-<<<<<<< HEAD
-
     public $components = array('AuthorizeNet');
 
-=======
-    
-    public  $components = array('AuthorizeNet'); 
->>>>>>> 7fda71fbc79600e3186b4711bd43ee725e6d52ed
     /**
      * Display Login form and validate a person for login
      *
@@ -933,7 +927,6 @@ class UsersController extends AppController
         $transactionKey = "96Ppj29RSdHb66e9";
         //$serviceUrl = "https://test.authorize.net/gateway/transact.dll";
         $serviceUrl = "https://secure.authorize.net/gateway/transact.dll"; //For LIVE
-<<<<<<< HEAD
         // You would need to add in necessary information here from your data collector
         $billinginfo = array("fname" => "First",
             "lname" => "Last",
@@ -955,46 +948,8 @@ class UsersController extends AppController
         $tax = 5;
         $shipping = 5;
 
-        $response = $this->AuthorizeNet->chargeCard($serviceUrl, $loginId, $transactionKey, '4111111111111111', '01', '2015', '123', false, $amount, $tax, $shipping, "Purchase of Goods", $billinginfo, "gargharish85@gmail.com", "555-555-5555", $shippinginfo);
+        $response = $this->AuthorizeNet->chargeCard($serviceUrl, $loginId, $transactionKey, '4111111111111111', '01', '2015', '123', $isLive, $amount, $tax, $shipping, "Purchase of Goods", $billinginfo, "gargharish85@gmail.com", "555-555-5555", $shippinginfo);
 
-=======
-        //$authorize = new Authorize($serviceUrl, $loginId, $transactionKey, "AUTH_CAPTURE");
-        //$reponse = $authorize->makePayment(
-        //            array('first_name'=>"Harish",
-        //                  'last_name'=>"Kumar",
-        //                  'address'=>"6704 Ivy Lane",
-        //                  'state'=>"WA",
-        //                  'zip_code'=>"20770",
-        //                  'cc_number'=>'4111111111111111',
-        //                  'exp_date'=>'0315',
-        //                  'amount'=>'19.19')
-        //            );
-        // You would need to add in necessary information here from your data collector
-        $billinginfo = array("fname" => "First",
-                            "lname" => "Last",
-                            "address" => "123 Fake St. Suite 0",
-                            "city" => "City",
-                            "state" => "ST",
-                            "zip" => "90210",
-                            "country" => "USA");
-    
-        $shippinginfo = array("fname" => "First",
-                            "lname" => "Last",
-                            "address" => "123 Fake St. Suite 0",
-                            "city" => "City",
-                            "state" => "ST",
-                            "zip" => "90210",
-                            "country" => "USA");
-        $isLive = false;//true when live
-        $amount = 110;
-        $tax = 5;
-        $shipping = 5;
-        
-        $response = $this->AuthorizeNet->chargeCard($serviceUrl,$loginId, $transactionKey, '4111111111111111', '01', '2015', '123', false, $amount, $tax, $shipping, "Purchase of Goods", $billinginfo, "gargharish85@gmail.com", "555-555-5555", $shippinginfo);
-        
-        
-        
->>>>>>> 7fda71fbc79600e3186b4711bd43ee725e6d52ed
         echo "<pre>";
         print_r($response);
         die;
