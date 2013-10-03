@@ -208,3 +208,22 @@ Request URL: /estore/js/toplinks.js
 Stack Trace:
 #0 C:\wamp\www\estore\app\webroot\index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2013-10-03 17:17:47 Error: Fatal Error (4): syntax error, unexpected T_STRING, expecting '(' in [C:\wamp\www\estore\app\Controller\UsersController.php, line 933]
+2013-10-03 17:17:47 Error: [FatalErrorException] syntax error, unexpected T_STRING, expecting '('
+Request URL: /estore/users/test1
+Stack Trace:
+#0 C:\wamp\www\estore\lib\Cake\Error\ErrorHandler.php(205): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'C:\wamp\www\est...', 933)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'C:\wamp\www\est...', 933, Array)
+#2 C:\wamp\www\estore\lib\Cake\Core\App.php(931): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'C:\wamp\www\est...', 933, Array)
+#3 C:\wamp\www\estore\lib\Cake\Core\App.php(904): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-10-03 17:17:47 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /estore/js/toplinks.js
+Stack Trace:
+#0 C:\wamp\www\estore\app\webroot\index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}

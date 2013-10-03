@@ -927,10 +927,10 @@ class UsersController extends AppController
     public function test1()
     {
         //App::import('Component', 'AuthorizeNet');
-        $loginId = "9jazAX96K3";
-        $transactionKey = "38MLt9W6Ry4yz7W9";
-        $serviceUrl = "https://test.authorize.net/gateway/transact.dll";
-        ////$serviceUrl = "https://secure.authorize.net/gateway/transact.dll"; For LIVE
+        $loginId = "3Ax3yP4Y";
+        $transactionKey = "96Ppj29RSdHb66e9";
+        //$serviceUrl = "https://test.authorize.net/gateway/transact.dll";
+        $serviceUrl = "https://secure.authorize.net/gateway/transact.dll"; //For LIVE
         //$authorize = new Authorize($serviceUrl, $loginId, $transactionKey, "AUTH_CAPTURE");
         //$reponse = $authorize->makePayment(
         //            array('first_name'=>"Harish",
