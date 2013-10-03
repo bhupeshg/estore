@@ -235,6 +235,7 @@ class AuthorizeNetComponent extends Component
 
         return $output;
 
+
     } // end chargeCard function
 }
 ?> 
