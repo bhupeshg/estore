@@ -24,7 +24,7 @@
             <td><?php echo ucwords($customer['Customer']['firstname'] . ' ' . $customer['Customer']['lastname']);?></td>
             <td>
                 <?php
-                $types = array('RL' => 'Retail', 'DR' => 'Dealer', 'OE' => 'OEM', 'GV' => 'Govt. Emp.');
+                $types = array('RL' => 'Retail', 'DR' => 'Dealer', 'OE' => 'OEM', 'GT' => 'Govt. Emp.');
                 echo $types[$customer['Customer']['konda']];
                 ?>
             </td>
@@ -44,7 +44,7 @@
             </td>
             <td>
                 <?php
-                if (in_array($customer['Customer']['konda'], array('OE', 'DR', 'GV'))) {
+                if (in_array($customer['Customer']['konda'], array('OE', 'DR', 'GT'))) {
                     $status = array('0' => 'Pending', '1' => 'In Progress', '2' => 'Verified', '3' => 'Blacklisted');
                     echo $status[$customer['Customer']['verify_status']];
                 }

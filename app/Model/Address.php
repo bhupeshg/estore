@@ -12,6 +12,7 @@ App::uses('AppModel', 'Model');
 class Address extends AppModel
 {
     public $actsAs = array('Containable');
+    public $virtualFields = array('address_list' => 'concat(Address.street, " - ", Address.postl_cod1)');
 
     public $belongsTo = array(
         'User',
@@ -22,10 +23,6 @@ class Address extends AppModel
         'State' => array(
             'className' => 'State',
             'foreignKey' => 'bland'
-        ),
-        'City' => array(
-            'className' => 'City',
-            'foreignKey' => 'city'
         ),
     );
 

@@ -49,14 +49,28 @@ class UsersController extends AppController
                     if ($data) {
                         $this->Session->write('uid', $data['User']['id']);
                         $this->Session->write('e_mail', $data['User']['e_mail']);
-                        $this->Session->write('type', $data['Customer']['konda']);
+                        $this->Session->write('konda', $data['Customer']['konda']);
                         $this->Session->write('kunnr', $data['Customer']['kunnr']);
-                        $this->Session->write('fname', $data['Customer']['firstname']);
-                        $this->Session->write('lname', $data['Customer']['lastname']);
-                        if ($data['Customer']['pltyp'] == null || $data['Customer']['pltyp'] == '') {
-                            $this->Session->write('discount', 0);
+                        $this->Session->write('firstname', $data['Customer']['firstname']);
+                        $this->Session->write('lastname', $data['Customer']['lastname']);
+                        $this->Session->write('pltyp', $data['Customer']['pltyp']);
+                        if ($data['Customer']['konda'] == 'RL' || ($data['Customer']['konda'] == 'OE' && $data['Customer']['stceg'] == null)) {
+                            $this->Session->write('apply_tax', true);
                         } else {
-                            $this->Session->write('discount', $data['Customer']['Discount']['discount']);
+                            $this->Session->write('apply_tax', false);
+                        }
+
+                        if ($data['Customer']['konda'] == 'RL') {
+                            $this->Session->write('discount', 0);
+                        } elseif ($data['Customer']['konda'] == 'GT') {
+                            $this->Session->write('discount', GOVT_DISCOUNT);
+                        } elseif ($data['Customer']['konda'] == 'OE') {
+                            $this->Session->write('discount', $data['Customer']['oem_discount']);
+                            $this->Session->write('credit_days', $data['Customer']['PaymentTerm']['ztagg']);
+                            $this->Session->write('credit_limit', $data['Customer']['klimg']);
+                        } else {
+                            $this->Session->write('credit_days', $data['Customer']['PaymentTerm']['ztagg']);
+                            $this->Session->write('credit_limit', $data['Customer']['klimg']);
                         }
                         $this->redirect(array('controller' => 'users', 'action' => 'myAccount'));
                         exit();
@@ -162,7 +176,7 @@ class UsersController extends AppController
         $this->set('countries', $countries);
         App::import('model', 'BusinessType');
         $btypes = new BusinessType();
-        $business_types = $btypes->find('list', array('fields' => array('brsch', 'brtxt')));
+        $business_types = $btypes->find('list', array('fields' => array('kdgrp', 'ktext')));
         $this->set('business_types', $business_types);
         $this->set('states', array());
         if (!$this->Session->read("uid")) {
@@ -184,9 +198,9 @@ class UsersController extends AppController
                         $file_type = explode('/', $this->request->data['Customer']['stceg']['type']);
                         $file_type = $file_type[1];
                     }
-                    if (empty($this->request->data['Customer']['brsch'])) {
+                    if (empty($this->request->data['Customer']['kdgrp'])) {
                         $error = true;
-                        $cust_errors['brsch'][0] = 'Please select the Business type';
+                        $cust_errors['kdgrp'][0] = 'Please select the Business type';
                     }
                     if (empty($this->request->data['Customer']['year_estd'])) {
                         $error = true;
@@ -214,9 +228,9 @@ class UsersController extends AppController
                     if (!empty($this->request->data['Customer']['stceg']['name'])) {
                         $file_type = explode('/', $this->request->data['Customer']['stceg']['type']);
                         $file_type = $file_type[1];
-                        if (empty($this->request->data['Customer']['brsch'])) {
+                        if (empty($this->request->data['Customer']['kdgrp'])) {
                             $oem_error = true;
-                            $cust_errors['brsch'][0] = 'Please select the Business type';
+                            $cust_errors['kdgrp'][0] = 'Please select the Business type';
                         }
                         if (empty($this->request->data['Customer']['year_estd'])) {
                             $oem_error = true;
@@ -237,7 +251,7 @@ class UsersController extends AppController
                         }
                     }
                 } elseif ($user_type == 4) {
-                    $this->request->data['Customer']['konda'] = 'GV';
+                    $this->request->data['Customer']['konda'] = 'GT';
                     $this->request->data['Customer']['pltyp'] = 16;
                     unset($this->request->data['Customer']['stceg']);
                 }
@@ -333,7 +347,7 @@ class UsersController extends AppController
         exit();
     }
 
-    public function getCities($countryID = null, $stateID = null)
+    /*public function getCities($countryID = null, $stateID = null)
     {
         $this->layout = null;
         $this->loadModel('Location');
@@ -345,7 +359,7 @@ class UsersController extends AppController
         }
         echo $a;
         exit();
-    }
+    }*/
 
     public function getProductLocations($countryID = null)
     {
@@ -378,6 +392,21 @@ class UsersController extends AppController
                 $location = $this->Plant->find('first', array('conditions' => array('Plant.werks' => $this->request->data['User']['location'])));
                 if ($location) {
                     $this->Session->write('ship_location', $location['Plant']['werks']);
+                    $this->loadModel('Cart');
+                    $this->Cart->updateAll(
+                        array('Cart.ship_location' => $location['Plant']['werks']),
+                        array('Cart.user_id' => $this->Session->read('uid'))
+                    );
+                    $konda = $this->Session->read('konda');
+                    if ($konda == 'DR') {
+                        $this->loadModel('Discount');
+                        $discount = $this->Discount->find('first', array('conditions' => array('Discount.pltyp' => $this->Session->read('pltyp'), 'Discount.werks' => $location['Plant']['werks'], 'Discount.konda' => 'DR', 'Discount.vkorg' => '1100'), 'fields' => array('Discount.kbetr')));
+                        if ($discount) {
+                            $this->Session->write('discount', $discount['Discount']['kbetr']);
+                        } else {
+                            $this->Session->write('discount', 0);
+                        }
+                    }
                     $this->redirect(array('controller' => 'users', 'action' => 'productFamily'));
                     exit();
                 } else {
@@ -775,10 +804,16 @@ class UsersController extends AppController
             $user = $this->User->find('first', array('conditions' => array('User.id' => $id)));
             if ($user) {
                 $this->request->data = $user;
-                $this->loadModel('Discount');
-                $price_list = $this->Discount->find('list', array('fields' => array('Discount.id', 'Discount.discount_final'), 'conditions' => array('Discount
-                .cust_cat' => $user['Customer']['konda'])));
-                $this->set('price_list', $price_list);
+                if ($user['Customer']['konda'] == 'DR') {
+                    $this->loadModel('Discount');
+                    $price_list = $this->Discount->find('list', array('fields' => array('Discount.pltyp', 'Discount.discount_final'), 'conditions' => array('Discount.konda' => $user['Customer']['konda'])));
+                    $this->set('price_list', $price_list);
+                }
+                if ($user['Customer']['konda'] == 'DR' || $user['Customer']['konda'] == 'DR') {
+                    $this->loadModel('PaymentTerm');
+                    $zterm = $this->PaymentTerm->find('list', array('fields' => array('PaymentTerm.zterm', 'PaymentTerm.vtext')));
+                    $this->set('zterm', $zterm);
+                }
             } else {
                 $this->Session->setFlash('User can not be found. Please select right user.', 'default', array(), 'failure');
                 $this->redirect(array('controller' => 'users', 'action' => 'listCustomers', 'admin' => true));

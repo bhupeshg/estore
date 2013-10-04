@@ -244,7 +244,7 @@ if ($user_type == 2 || $user_type == 3) {
             <?php echo $this->Form->input('Customer.ups_zip', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
         </td>
         <td align="left">
-            <?php echo $this->Form->input('Customer.brsch', array('options' => $business_types, 'empty' => '--Busniess Type--', 'label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
+            <?php echo $this->Form->input('Customer.kdgrp', array('options' => $business_types, 'empty' => '--Busniess Type--', 'label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
         </td>
     </tr>
     <tr>

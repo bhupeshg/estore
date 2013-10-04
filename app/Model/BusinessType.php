@@ -32,6 +32,6 @@ App::uses('AppModel', 'Model');
  * @package       app.Model
  */
 class BusinessType extends AppModel {
-    public $primaryKey = 'brsch';
+    public $primaryKey = 'kdgrp';
     public $actsAs = array('Containable');
 }

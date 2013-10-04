@@ -33,6 +33,7 @@ App::uses('AppModel', 'Model');
  */
 class Discount extends AppModel {
     public $actsAs = array('Containable');
+    public $primaryKey = 'pltyp';
 
-    public $virtualFields = array('discount_final' => 'concat(Discount.discount, "% - ", Discount.condition)');
+    public $virtualFields = array('discount_final' => 'concat(Discount.kbetr, "% - ", Discount.pltyp)');
 }

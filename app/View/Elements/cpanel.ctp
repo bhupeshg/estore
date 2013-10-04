@@ -3,10 +3,9 @@ if ($this->Session->read('uid')) {
     ?>
 
     <div class="cpaneluser">
-        <span class="userpic">
-            <?php echo $this->Html->image('avatar.png',array('width'=>'29','height'=>'29'));?>
-        </span>
-        <span class="welcomn example" data-dropdown="#dropdown-1">john Smith</span>
+        <span class="welcomn example" data-dropdown="#dropdown-1"><span class="userpic">
+            <?php echo $this->Html->image('avatar.png',array('width'=>'24','height'=>'24'));?>
+        </span> <?php echo ucfirst($this->Session->read('firstname')).' '.ucfirst($this->Session->read('lastname'))?></span>
     </div>
 
     <div id="dropdown-1" class="dropdown dropdown-tip dropdown-anchor-right">

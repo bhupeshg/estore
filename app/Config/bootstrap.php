@@ -110,3 +110,4 @@ CakeLog::config('error', array(
 CakePlugin::load('DebugKit');
 
 define('ONLINE_DISCOUNT','2');
+define('GOVT_DISCOUNT','50');

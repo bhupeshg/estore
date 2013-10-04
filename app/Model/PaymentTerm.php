@@ -33,4 +33,5 @@ App::uses('AppModel', 'Model');
  */
 class PaymentTerm extends AppModel {
     public $actsAs = array('Containable');
+    public $primaryKey = 'zterm';
 }

@@ -195,7 +195,7 @@
             }
             $weight = $weight * 0.00220462;
             ?>
-            <input type="hidden" id="weight" value="<?php echo $weight;?>">
+            <input type="hidden" id="weight" value="<?php echo $weight; ?>">
         </table>
     </td>
 </tr>
@@ -206,29 +206,50 @@
                 <td colspan="2" align="right">
                     <table width="400" border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                            <td width="214" rowspan="3" align="right" class="black12">&nbsp;</td>
+                            <td width="214" rowspan="4" align="right" class="black12">&nbsp;</td>
                             <td width="86" height="30" align="right" class="black12"><strong>Subtotal:</strong></td>
                             <td width="100" align="center" class="black12">$<?php echo number_format($total, 2);?></td>
                         </tr>
                         <?php
-                        if ($tax > 0) {
-                            $tax = $total * $tax / 100;
-                            ?>
-                            <tr>
-                                <td height="30" align="right" class="black12"><strong>Sale Tax:</strong></td>
-                                <td align="center" class="black12">$<?php echo number_format($tax, 2);?></td>
-                            </tr>
+                        if ($this->Session->read('apply_tax')) {
+                            if ($tax > 0) {
+                                $tax = $total * $tax / 100;
+                                ?>
+                                <tr>
+                                    <td height="30" align="right" class="black12"><strong>Sale Tax:</strong></td>
+                                    <td align="center" class="black12">$<?php echo number_format($tax, 2);?></td>
+                                </tr>
+                            <?php
+                            }
+                        } else {
+                            $tax = 0;
+                        }
+                        ?>
+                        <?php
+                        $discount = 0;
+                        if ($this->Session->read('konda') == 'RL') {
+                        ?>
+                        <tr>
+                            <td height="30" align="right" class="black12"><strong>Discount:</strong></td>
+                            <td align="center" class="black12">
+                                <?php
+                                $discount = $this->requestAction('/carts/calculateDiscount/' . ($total + $tax) . '/' . $cart[0]['Cart']['ship_location']);
+                                $discount = $total * $discount / 100;
+                                echo '$' . number_format($discount, 2);
+                                ?>
+                            </td>
+                        </tr>
                         <?php
                         }
                         ?>
                         <tr>
                             <td height="30" align="right" class="black12"><strong>Total:</strong></td>
                             <td align="center" class="black12">
-                                $
                                 <?php
-                                echo number_format($total + $tax, 2);
+                                echo '$' . number_format($total + $tax - $discount, 2);
                                 $_SESSION['tax'] = $tax;
                                 $_SESSION['total'] = $total;
+                                $_SESSION['subtotal'] = $total + $tax - $discount;
                                 ?>
                             </td>
                         </tr>
@@ -265,7 +286,9 @@ echo $this->Form->create('Cart', array('controller' => 'carts', 'action' => 'pay
                     <td colspan="2" align="right">
                         <table width="400" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td width="214" rowspan="3" align="right" valign="top" class="black12">(Delivers in 5-7 busness days)</td>
+                                <td width="214" rowspan="3" align="right" valign="top" class="black12">(Delivers in 5-7
+                                    busness days)
+                                </td>
                                 <td width="86" height="30" align="right" class="black12"><strong>Shipping
                                         Charges:</strong></td>
                                 <td width="100" align="center" class="black12">

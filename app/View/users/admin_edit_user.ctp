@@ -30,7 +30,7 @@ echo $this->Form->hidden('User.e_mail');
                             ?>
                         </div>
                     </div>
-                    <?php if ($this->request->data['Customer']['konda'] != 'GV') { ?>
+                    <?php if ($this->request->data['Customer']['konda'] != 'GT') { ?>
                         <div class="rowb">
                             <div class="label">New Credit Limit :</div>
                             <div class="inbx">
@@ -38,20 +38,23 @@ echo $this->Form->hidden('User.e_mail');
                             </div>
                         </div>
                         <div class="rowb">
-                            <div class="label">New Days Limit :</div>
+                            <div class="label">Days Limit :</div>
                             <div class="inbx">
-                                <?php echo $this->Form->input('Customer.ztag2', array('label' => false, 'div' => false)); ?>
+                                <?php echo $this->Form->input('Customer.zterm', array('options' => $zterm, 'class' => 'adminSelect', 'label' => false, 'div' => false, 'autocomplete' => 'off')); ?>
                             </div>
                         </div>
-                        <div class="rowb">
-                            <div class="label">Price List Group :</div>
-                            <div class="inbx">
-                                <?php
-                                echo $this->Form->input('Customer.pltyp', array('options' => $price_list, 'class' => 'adminSelect', 'label' => false, 'div' => false, 'autocomplete' => 'off'));
-                                ?>
+                        <?php if ($this->request->data['Customer']['konda'] == 'DR') { ?>
+                            <div class="rowb">
+                                <div class="label">Price List Group :</div>
+                                <div class="inbx">
+                                    <?php
+                                    echo $this->Form->input('Customer.pltyp', array('options' => $price_list, 'class' => 'adminSelect', 'label' => false, 'div' => false, 'autocomplete' => 'off'));
+                                    ?>
+                                </div>
                             </div>
-                        </div>
-                    <?php }
+                        <?php
+                        }
+                    }
                 } ?>
                 <div class="rowb">
                     <div class="label">Login Status :</div>

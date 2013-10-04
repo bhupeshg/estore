@@ -43,21 +43,17 @@ class Customer extends AppModel
             'className' => 'State',
             'foreignKey' => 'bland'
         ),
-        'City' => array(
-            'className' => 'City',
-            'foreignKey' => 'city'
-        ),
         'PaymentTerm' => array(
             'className' => 'PaymentTerm',
-            'foreignKey' => 'pmnttrms'
+            'foreignKey' => 'zterm'
         ),
         'BusinessType' => array(
             'className' => 'BusinessType',
-            'foreignKey' => 'brsch'
+            'foreignKey' => 'kdgrp'
         ),
         'Discount' => array(
             'className' => 'Discount',
-            'foreignKey' => 'pltyp'
+            'foreignKey' => 'pltyp',
         )
     );
 

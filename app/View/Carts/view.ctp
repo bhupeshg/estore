@@ -43,7 +43,7 @@
                                                                 shopping cart</i>
                                                         </td>
                                                         <td align="right">
-                                                            <?php echo $this->Html->link('Proceed Checkout', array('controller' => 'carts', 'action' => 'address'), array('class' => 'atc_b', 'style' => 'text-decoration:none; font-size:14px;'));?>
+
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -101,7 +101,7 @@
                                                                     <?php $price = $val['Product']['ProductAvailability']['kbetr'] - ($val['Product']['ProductAvailability']['kbetr'] * ($this->Session->read('discount') + ONLINE_DISCOUNT) / 100);
                                                                     echo '$' . number_format($price, 2);?>
                                                                 </td>
-                                                                <td><?php echo '$' . number_format($val['Cart']['qty'] * $val['Product']['umrez'] * $price,2);?></td>
+                                                                <td><?php echo '$' . number_format($val['Cart']['qty'] * $val['Product']['umrez'] * $price, 2);?></td>
                                                             </tr>
                                                             <?php
                                                             $total = $total + ($val['Cart']['qty'] * $val['Product']['umrez'] * $price);
@@ -128,17 +128,20 @@
                                                        cellpadding="0">
                                                     <tr>
                                                         <td align="right">
-                                                            <table width="100%" border="0"
-                                                                   cellspacing="0" cellpadding="0">
-                                                                <tr>
-                                                                    <td height="30" align="right"
-                                                                        class="black12"><strong>Subtotal:</strong>
-                                                                    </td>
-                                                                    <td width="100" align="middle"
-                                                                        class="black12">$<?php echo number_format($total,2);?>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
+                                                            <?php if (!empty($data)) { ?>
+                                                                <table width="100%" border="0"
+                                                                       cellspacing="0" cellpadding="0">
+                                                                    <tr>
+                                                                        <td height="30" align="right"
+                                                                            class="black12"><strong>Subtotal:</strong>
+                                                                        </td>
+                                                                        <td width="100" align="middle"
+                                                                            class="black12">
+                                                                            $<?php echo number_format($total, 2);?>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                     <tr>

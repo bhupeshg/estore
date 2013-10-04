@@ -208,7 +208,7 @@ class CartsController extends AppController
 
             // Setting postal code of plant and shipping to calculate shipping.
             $this->loadModel('Plant');
-            $origin = $this->Plant->find('first', array('conditions' => array('Plant.id' => $cart[0]['Cart']['ship_location'])));
+            $origin = $this->Plant->find('first', array('conditions' => array('Plant.werks' => $cart[0]['Cart']['ship_location'])));
             $this->set('origin', $origin['Plant']['pstlz']);
             $this->set('destination', $shipping['Address']['postl_cod1']);
         }
@@ -222,12 +222,23 @@ class CartsController extends AppController
             $this->Session->setFlash("You have empty cart", 'default', array(), 'failure');
             $this->redirect(array('controller' => 'carts', 'action' => 'view'));
             exit();
-        } elseif ($this->request->data) {
+        } elseif (!$this->request->data) {
             $this->Session->setFlash("Please select Shipping first", 'default', array(), 'failure');
             $this->redirect(array('controller' => 'carts', 'action' => 'orderReview'));
             exit();
-        }else{
+        } else {
 
+        }
+    }
+
+
+    public function calculateDiscount($total = 0, $ship_location = 1101)
+    {
+        $this->loadModel('Discount');
+        $discount = $this->Discount->find('first', array('conditions' => array('Discount.werks' => $ship_location, 'Discount.konda' => 'RL', 'Discount.vkorg' => '1100', 'Discount.kstbw <=' => $total), 'fields' => array('Discount.kbetr'), 'order' => 'Discount.kbetr DESC'));
+        if ($discount) {
+            $this->Session->write('RL_discount', $discount['Discount']['kbetr']);
+            return $discount['Discount']['kbetr'];
         }
     }
 
@@ -246,7 +257,7 @@ class CartsController extends AppController
         $height = "0";
         $response = $ups->getRate($serviceMethod, $fromZip, $toZip, $length, $width, $height, $weight);
         if ($response['response']['code'] == 100) {
-            $grand_total = $this->Session->read('total') + $this->Session->read('tax') + $response['response']['rate'];
+            $grand_total = $this->Session->read('subtotal') + $response['response']['rate'];
             $this->Session->write('shipping_charge', $response['response']['rate']);
             $this->Session->write('grand_total', $grand_total);
             echo json_encode(array('status' => true, 'shipping_charge' => $response['response']['rate'], 'grand_total' => $grand_total));
