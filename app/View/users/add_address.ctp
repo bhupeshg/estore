@@ -12,6 +12,7 @@
             })
         });
 
+/*
         $('#AddressBland').change(function () {
             var country = $('#AddressCountry').val();
             $.ajax({
@@ -22,6 +23,7 @@
                 }
             })
         });
+*/
 
         $(function () {
             var dob = $("#datepicker").attr('value');
@@ -156,7 +158,7 @@ if ($edit) {
                             </tr>
                             <tr>
                                 <td align="left">
-                                    <?php echo $this->Form->input('Address.city', array('options' => $cities, 'empty' => '--Select City--', 'label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
+                                    <?php echo $this->Form->input('Address.city', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
                                 </td>
                                 <td align="left">
                                     <?php echo $this->Form->input('Address.district', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>

@@ -1,13 +1,21 @@
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('.paynow').click(function () {
+            $('#orderReview').submit();
+        });
+    })
     function ShowHide(id, origin, destination) {
         if (id == 1) {
+            var weight = $('#weight').val();
             $.ajax({
                 type: "GET",
-                url: "/estore/users/calculateShipping/" + origin + "/" + destination,
+                url: "/estore/carts/calculateShipping/" + origin + "/" + destination + "/" + weight,
                 success: function (result) {
                     var result = JSON.parse(result);
                     if (result.status) {
-                        $('#shipinng_charges').val(result.msg);
+                        $('#shipping_charge').html('$' + result.shipping_charge);
+                        $('#grand_total').html('$' + result.grand_total);
+                        $('#is_ship').val(1);
                         $('#article1').show();
                         $('#article2').hide();
                     } else {
@@ -16,6 +24,7 @@
                 }
             })
         } else {
+            $('#is_ship').val(0);
             $('#article2').show();
             $('#article1').hide();
         }
@@ -157,6 +166,7 @@
             </tr>
             <?php
             $total = 0;
+            $weight = 0;
             foreach ($cart as $val) {
                 ?>
                 <tr>
@@ -168,13 +178,24 @@
                         <?php $price = $val['Product']['ProductAvailability']['kbetr'] - ($val['Product']['ProductAvailability']['kbetr'] * ($this->Session->read('discount') + ONLINE_DISCOUNT) / 100);
                         echo '$' . number_format($price, 2);?>
                     </td>
-                    <td><?php echo '$' . number_format($val['Cart']['qty'] * $val['Product']['umrez'] * $price, 2
-                        );?></td>
+                    <td>
+                        <?php
+                        echo '$' . number_format($val['Cart']['qty'] * $val['Product']['umrez'] * $price, 2);
+                        if ($val['Product']['gewei'] == 'KG') {
+                            $unit_weight = $val['Product']['ntgew'] * 100;
+                        } else {
+                            $unit_weight = $val['Product']['ntgew'];
+                        }
+                        $weight = $weight + $val['Cart']['qty'] * $val['Product']['umrez'] * $unit_weight;
+                        ?>
+                    </td>
                 </tr>
                 <?php
                 $total = $total + ($val['Cart']['qty'] * $val['Product']['umrez'] * $price);
             }
+            $weight = $weight * 0.00220462;
             ?>
+            <input type="hidden" id="weight" value="<?php echo $weight;?>">
         </table>
     </td>
 </tr>
@@ -233,7 +254,9 @@
         <a class="dlivery cursor" onClick="javascript: ShowHide(1,<?php echo $origin; ?>,<?php echo $destination; ?>);">Delivery</a>
     </td>
 </tr>
-
+<?php
+echo $this->Form->create('Cart', array('controller' => 'carts', 'action' => 'payment', 'id' => 'orderReview'));
+?>
 <tr>
     <td>
         <div id="article1" style="display: none;">
@@ -242,8 +265,9 @@
                     <td colspan="2" align="right">
                         <table width="400" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td width="214" rowspan="3" align="right" class="black12">&nbsp;</td>
-                                <td width="86" height="30" align="right" class="black12"><strong>Shipping:</strong></td>
+                                <td width="214" rowspan="3" align="right" valign="top" class="black12">(Delivers in 5-7 busness days)</td>
+                                <td width="86" height="30" align="right" class="black12"><strong>Shipping
+                                        Charges:</strong></td>
                                 <td width="100" align="center" class="black12">
                                     <span id="shipping_charge"></span>
                                 </td>
@@ -252,6 +276,7 @@
                                 <td height="30" align="right" class="black12"><strong>Grand Total:</strong></td>
                                 <td align="center" class="black12">
                                     <span id="grand_total"></span>
+                                    <input type="hidden" id="is_ship" name="is_ship" value="0">
                                 </td>
                             </tr>
                         </table>
@@ -264,7 +289,9 @@
                     <td width="100%" align="right">
                         <table width="300" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td align="right"><a href="#" class="paynow">PROCEED TO PAYMENT</a></td>
+                                <td align="right">
+                                    <a href="#" class="paynow">PROCEED TO PAYMENT</a>
+                                </td>
                             </tr>
                         </table>
                     </td>

@@ -165,7 +165,6 @@ class UsersController extends AppController
         $business_types = $btypes->find('list', array('fields' => array('brsch', 'brtxt')));
         $this->set('business_types', $business_types);
         $this->set('states', array());
-        $this->set('cities', array());
         if (!$this->Session->read("uid")) {
             if ($this->request->data) {
                 $this->request->data['User']['e_mail'] = $this->request->data['Customer']['e_mail'];
@@ -733,7 +732,7 @@ class UsersController extends AppController
             'conditions' => array("Not" => array('Customer.konda' => array('AD', 'EM'))),
             'limit' => 20,
             'order' => array('Customer.firstname' => 'asc'),
-            'contain' => array('Customer' => array('Country', 'State', 'City'))
+            'contain' => array('Customer' => array('Country', 'State'))
         );
         $data = $this->Paginator->paginate('User');
         $this->set(compact('data'));
@@ -798,9 +797,8 @@ class UsersController extends AppController
                 'alias' => 'Location',
                 'type' => 'LEFT',
                 'conditions' => array(
-                    'Location.land1 = Address.country',
                     'Location.bland = Address.bland',
-                    'Location.ort01 = Address.city',
+                    'Location.land1 = Address.country',
                 )
             )
         );
@@ -821,7 +819,6 @@ class UsersController extends AppController
         $countries = $country->find('list', array('fields' => array('land1', 'landx')));
         $this->set('countries', $countries);
         $this->set('states', array());
-        $this->set('cities', array());
 
         if ($this->request->data) {
             $this->request->data['Address']['user_id'] = $this->Session->read('uid');
@@ -841,12 +838,7 @@ class UsersController extends AppController
                 if ($data) {
                     $this->request->data = $data;
                     $this->set('edit', true);
-                    $this->set('states', $country->find('list', array('conditions' => array('Location
-                    .bland' => $data['Address']['bland']),
-                        'fields' => array('bland', 'bezei'))));
-                    $this->set('cities', $country->find('list', array('conditions' => array('Location
-                    .ort01' => $data['Address']['city']),
-                        'fields' => array('ort01', 'bezei_city'))));
+                    $this->set('states', $country->find('list', array('conditions' => array('Location.bland' => $data['Address']['bland']), 'fields' => array('bland', 'bezei'))));
                 }
             }
         }
@@ -896,62 +888,4 @@ class UsersController extends AppController
         }
     }
 
-    public function calculateShipping($fromZip = 0, $toZip = 0, $weight = 5)
-    {
-        App::import('Vendor', 'Ups');
-        $upsAccessnumber = "4CBE3F3AFCC21495";
-        $upsUsername = " UnbrakoAlvin";
-        $upsPassword = "abc@USA123";
-        $upsShippernumber = "";
-        $ups = new Ups($upsAccessnumber, $upsUsername, $upsPassword, $upsShippernumber);
-        $serviceMethod = "03"; //"Ground"=>"03"
-        $length = "0";
-        $width = "0";
-        $height = "0";
-        $response = $ups->getRate($serviceMethod, $fromZip, $toZip, $length, $width, $height, $weight);
-        if ($response['response']['code'] == 100) {
-            echo json_encode(array('status' => true, 'msg' => $response['response']['rate']));
-            exit;
-        } else {
-            echo json_encode(array('status' => true, 'msg' => $response['response']['errorMessage']));
-            exit;
-        }
-        exit();
-    }
-
-
-    public function test1()
-    {
-        //App::import('Component', 'AuthorizeNet');
-        $loginId = "3Ax3yP4Y";
-        $transactionKey = "96Ppj29RSdHb66e9";
-        //$serviceUrl = "https://test.authorize.net/gateway/transact.dll";
-        $serviceUrl = "https://secure.authorize.net/gateway/transact.dll"; //For LIVE
-        // You would need to add in necessary information here from your data collector
-        $billinginfo = array("fname" => "First",
-            "lname" => "Last",
-            "address" => "123 Fake St. Suite 0",
-            "city" => "City",
-            "state" => "ST",
-            "zip" => "90210",
-            "country" => "USA");
-
-        $shippinginfo = array("fname" => "First",
-            "lname" => "Last",
-            "address" => "123 Fake St. Suite 0",
-            "city" => "City",
-            "state" => "ST",
-            "zip" => "90210",
-            "country" => "USA");
-        $isLive = false; //true when live
-        $amount = 110;
-        $tax = 5;
-        $shipping = 5;
-
-        $response = $this->AuthorizeNet->chargeCard($serviceUrl, $loginId, $transactionKey, '4111111111111111', '01', '2015', '123', $isLive, $amount, $tax, $shipping, "Purchase of Goods", $billinginfo, "gargharish85@gmail.com", "555-555-5555", $shippinginfo);
-
-        echo "<pre>";
-        print_r($response);
-        die;
-    }
 }

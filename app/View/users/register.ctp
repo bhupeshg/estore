@@ -12,16 +12,16 @@
             })
         });
 
-        $('#CustomerBland').change(function () {
-            var country = $('#CustomerCountry').val();
-            $.ajax({
-                type: "GET",
-                url: "/jkt/estore/users/getCities/" + country + "/" + $(this).val(),
-                success: function (data) {
-                    $('#CustomerCity').html(data);
-                }
-            })
-        });
+        /*$('#CustomerBland').change(function () {
+         var country = $('#CustomerCountry').val();
+         $.ajax({
+         type: "GET",
+         url: "/jkt/estore/users/getCities/" + country + "/" + $(this).val(),
+         success: function (data) {
+         $('#CustomerCity').html(data);
+         }
+         })
+         });*/
 
         $(function () {
             $("#datepicker").datepicker();
@@ -164,7 +164,7 @@ echo $this->Form->hidden('User.user_type', array('value' => $user_type));
 </tr>
 <tr>
     <td align="left">
-        <?php echo $this->Form->input('Customer.city', array('options' => $cities, 'empty' => '--Select City--', 'label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
+        <?php echo $this->Form->input('Customer.city', array('label' => false, 'div' => false, 'class' => 'forgerttxt', 'type' => 'text')); ?>
     </td>
     <td align="left">
         <?php echo $this->Form->input('Customer.district', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>

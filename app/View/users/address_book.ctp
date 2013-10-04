@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td>
-            <?php echo $this->Html->link('Add new Address', array('controller' => 'users', 'action' => 'addAddress'))?>
+            <?php echo $this->Html->link('Add new Address', array('controller' => 'users', 'action' => 'addAddress'),array('style'=>' color:blue;'))?>
         </td>
     </tr>
     <tr>
@@ -59,7 +59,7 @@
                                                                     <?php echo $address['Address']['e_mail'];?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <?php echo $address['Address']['house_no'] . ' ' . $address['Address']['street'] . ' ,' . $address['Location']['bezei_city'] . ' ,' . $address['Address']['district'] . ' ' . $address['Address']['postl_cod1'];?>
+                                                                    <?php echo $address['Address']['house_no'] . ' ' . $address['Address']['street'] . ' ,' . $address['Address']['city'] . ' ,' . $address['Address']['district'] . ' ' . $address['Address']['postl_cod1'];?>
                                                                 </td>
                                                                 <td align="center">
                                                                     <?php echo $address['Location']['bezei'];?>

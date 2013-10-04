@@ -29,7 +29,7 @@
                 ?>
             </td>
             <td><?php echo $customer['Customer']['e_mail'];?></td>
-            <td><?php echo $customer['Customer']['house_no'] . ' ' . $customer['Customer']['street'] . ' ,' . $customer['Customer']['City']['bezei_city'] . ' ,' . $customer['Customer']['district'] . ' ,' . $customer['Customer']['State']['bezei'] . ' ,' . $customer['Customer']['Country']['landx'];?></td>
+            <td><?php echo $customer['Customer']['house_no'] . ' ' . $customer['Customer']['street'] . ' ,' . $customer['Customer']['city'] . ' ,' . $customer['Customer']['district'] . ' ,' . $customer['Customer']['State']['bezei'] . ' ,' . $customer['Customer']['Country']['landx'];?></td>
             <td>
                 <?php
                 if (!empty($customer['Customer']['stceg']))

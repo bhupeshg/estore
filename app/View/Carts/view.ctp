@@ -101,7 +101,7 @@
                                                                     <?php $price = $val['Product']['ProductAvailability']['kbetr'] - ($val['Product']['ProductAvailability']['kbetr'] * ($this->Session->read('discount') + ONLINE_DISCOUNT) / 100);
                                                                     echo '$' . number_format($price, 2);?>
                                                                 </td>
-                                                                <td><?php echo '$' . $val['Cart']['qty'] * $val['Product']['umrez'] * $price;?></td>
+                                                                <td><?php echo '$' . number_format($val['Cart']['qty'] * $val['Product']['umrez'] * $price,2);?></td>
                                                             </tr>
                                                             <?php
                                                             $total = $total + ($val['Cart']['qty'] * $val['Product']['umrez'] * $price);
@@ -135,7 +135,7 @@
                                                                         class="black12"><strong>Subtotal:</strong>
                                                                     </td>
                                                                     <td width="100" align="middle"
-                                                                        class="black12">$<?php echo $total;?>
+                                                                        class="black12">$<?php echo number_format($total,2);?>
                                                                     </td>
                                                                 </tr>
                                                             </table>

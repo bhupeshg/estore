@@ -1,7 +1,48 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#AddressCountry').change(function () {
+            $.ajax({
+                type: "GET",
+                url: "/unbrako/users/getStates/" + $(this).val(),
+                success: function (data) {
+                    $('#AddressBland').html(data);
+                }
+            })
+        });
 
-    })
+        $('#UserSelectAddress').change(function () {
+            $.ajax({
+                type: "GET",
+                url: "/estore/carts/getAddress/" + $(this).val(),
+                dataType: 'JSON',
+                success: function (data) {
+                    $.each(data, function (index, element) {
+                        if (index == 'listCountries') {
+                            $('#AddressCountry').html(element);
+                        } else if (index == 'listCountries') {
+                            $('#AddressBland').html(element);
+                        } else {
+                            $('#' + index).val(element);
+                        }
+
+                    });
+                    //data = JSON.parse(data);
+                }
+            })
+        });
+
+        $(function () {
+            var dob = $("#datepicker").attr('value');
+            $("#datepicker").datepicker();
+            $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+            $("#datepicker").datepicker("option", "changeYear", true);
+            $("#datepicker").datepicker("option", "yearRange", "1950:2012");
+            $("#datepicker").val(dob);
+        });
+
+    });
 </script>
 <table width="925" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -27,7 +68,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td valign="top">
-    <?php echo $this->Form->create('Users', array('controller' => 'users', 'action' => 'addAddress')); ?>
+    <?php echo $this->Form->create('Customer', array('controller' => false, 'action' => false)); ?>
     <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0"
            class="flbtm">
         <tr>
@@ -104,57 +145,57 @@
         </tr>
         <tr>
             <td align="left">
-                <?php //echo $this->Form->input('Address.country', array('options' => $countries, 'empty' => '--Select Country--', 'label' => false, 'div' => false, 'selected' => $billing['Customer']['country'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?>
-                <?php echo $this->Form->input('Address.country', array('label' => false, 'div' => false, 'value' => $billing['Customer']['Country']['landx'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?>
+                <?php //echo $this->Form->input('Customer.country', array('options' => $countries, 'empty' => '--Select Country--', 'label' => false, 'div' => false, 'selected' => $billing['Customer']['country'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?>
+                <?php echo $this->Form->input('Customer.country', array('label' => false, 'div' => false, 'value' => $billing['Customer']['Country']['landx'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?>
             </td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> State/Province:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.State', array('label' => false, 'div' => false, 'value' => $billing['Customer']['State']['bezei'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.State', array('label' => false, 'div' => false, 'value' => $billing['Customer']['State']['bezei'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> City:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.city', array('label' => false, 'div' => false, 'value' => $billing['Customer']['city'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.city', array('label' => false, 'div' => false, 'value' => $billing['Customer']['city'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> District:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.district', array('label' => false, 'div' => false, 'value' => $billing['Customer']['district'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.district', array('label' => false, 'div' => false, 'value' => $billing['Customer']['district'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> Postal Code:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.postl_cod1', array('label' => false, 'div' => false, 'value' => $billing['Customer']['postl_cod1'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.postl_cod1', array('label' => false, 'div' => false, 'value' => $billing['Customer']['postl_cod1'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> Street:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.street', array('label' => false, 'div' => false, 'value' => $billing['Customer']['street'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.street', array('label' => false, 'div' => false, 'value' => $billing['Customer']['street'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> Building:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.building', array('label' => false, 'div' => false, 'value' => $billing['Customer']['building'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.building', array('label' => false, 'div' => false, 'value' => $billing['Customer']['building'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> Floor:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.floor', array('label' => false, 'div' => false, 'value' => $billing['Customer']['floor'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.floor', array('label' => false, 'div' => false, 'value' => $billing['Customer']['floor'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> House No:</td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.house_no', array('label' => false, 'div' => false, 'value' => $billing['Customer']['house_no'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
+            <td align="left"><?php echo $this->Form->input('Customer.house_no', array('label' => false, 'div' => false, 'value' => $billing['Customer']['house_no'], 'class' => 'forgerttxt form-control', 'disabled' => 'disabled')); ?></td>
         </tr>
     </table>
     <?php echo $this->Form->end();?>
@@ -186,63 +227,108 @@
                     class="red">*</span></td>
         </tr>
         <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
+            <td align="left">
+                <?php echo $this->Form->input('Address.firstname', array('label' => false, 'div' => false, 'class' => 'forgerttxt form-control')); ?>
+            </td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12">Last Name:</td>
         </tr>
         <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
+            <td align="left"><?php echo $this->Form->input('Address.lastname', array('label' => false, 'div' => false, 'class' => 'forgerttxt form-control')); ?></td>
         </tr>
         <tr>
-            <td width="462" align="left" class="grey12">Address Line 1:<span
+            <td width="462" align="left" class="grey12">Email Address:<span class="red">*</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                <?php echo $this->Form->input('Address.e_mail', array('label' => false, 'div' => false, 'class' => 'forgerttxt form-control')); ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12">Date of Birth:<span class="red"></span></td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.cus_dob', array('label' => false, 'div' => false, 'class' => 'forgerttxt', 'id' => 'datepicker', 'type' => 'text', 'readonly' => true)); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12">Phone Number:</td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.tel1_number', array('label' => false, 'div' => false, 'class' => 'forgerttxt form-control')); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12">Mobile Number:<span class="red"></span></td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.mob_number', array('label' => false, 'div' => false, 'class' => 'forgerttxt form-control')); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12">Fax:<span
                     class="red"></span></td>
         </tr>
         <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
-        </tr>
-        <tr>
-            <td width="462" align="left" class="grey12">Address Line 2:</td>
-        </tr>
-        <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
-        </tr>
-        <tr>
-            <td width="462" align="left" class="grey12">Suburb/City:<span
-                    class="red"></span></td>
-        </tr>
-        <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
+            <td align="left"><?php echo $this->Form->input('Address.fax_number', array('label' => false, 'div' => false, 'class' => 'forgerttxt form-control')); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12">Country:<span
                     class="red"></span></td>
         </tr>
         <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
+            <td align="left">
+                <?php echo $this->Form->input('Address.country', array('options' => $countries, 'empty' => '--Select Country--', 'label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
+            </td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12"> State/Province:</td>
         </tr>
         <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
+            <td align="left">
+                <?php echo $this->Form->input('Address.bland', array('options' => $countries, 'empty' => '--Select State--', 'label' => false, 'div' => false, 'class' => 'forgerttxt')); ?>
+            </td>
         </tr>
         <tr>
-            <td width="462" align="left" class="grey12"> Zip/Postcode:</td>
+            <td width="462" align="left" class="grey12"> City:</td>
         </tr>
         <tr>
-            <td align="left"><input name="textfield2" type="text" class="forgerttxt"
-                                    id="textfield2"></td>
+            <td align="left"><?php echo $this->Form->input('Address.city', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
         </tr>
         <tr>
-            <td height="10" align="left"></td>
+            <td width="462" align="left" class="grey12"> District:</td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.district', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12"> Postal Code:</td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.postl_cod1', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12"> Street:</td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.street', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12"> Building:</td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.building', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12"> Floor:</td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.floor', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
+        </tr>
+        <tr>
+            <td width="462" align="left" class="grey12"> House No:</td>
+        </tr>
+        <tr>
+            <td align="left"><?php echo $this->Form->input('Address.house_no', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
         </tr>
         <tr>
             <td align="left"><input name="input2" type="button" value="Submit"
