@@ -5,14 +5,14 @@
         $('#AddressCountry').change(function () {
             $.ajax({
                 type: "GET",
-                url: "/unbrako/users/getStates/" + $(this).val(),
+                url: "/estore/users/getStates/" + $(this).val(),
                 success: function (data) {
                     $('#AddressBland').html(data);
                 }
             })
         });
 
-        $('#UserSelectAddress').change(function () {
+        $('#CartsSelectAddress').change(function () {
             $.ajax({
                 type: "GET",
                 url: "/estore/carts/getAddress/" + $(this).val(),
@@ -21,7 +21,7 @@
                     $.each(data, function (index, element) {
                         if (index == 'listCountries') {
                             $('#AddressCountry').html(element);
-                        } else if (index == 'listCountries') {
+                        } else if (index == 'listStates') {
                             $('#AddressBland').html(element);
                         } else {
                             $('#' + index).val(element);
@@ -34,12 +34,12 @@
         });
 
         $(function () {
-            var dob = $("#datepicker").attr('value');
-            $("#datepicker").datepicker();
-            $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
-            $("#datepicker").datepicker("option", "changeYear", true);
-            $("#datepicker").datepicker("option", "yearRange", "1950:2012");
-            $("#datepicker").val(dob);
+            var dob = $("#AddressCusDob").attr('value');
+            $("#AddressCusDob").datepicker();
+            $("#AddressCusDob").datepicker("option", "dateFormat", "yy-mm-dd");
+            $("#AddressCusDob").datepicker("option", "changeYear", true);
+            $("#AddressCusDob").datepicker("option", "yearRange", "1950:2012");
+            $("#AddressCusDob").val(dob);
         });
 
     });
@@ -202,7 +202,9 @@
 </td>
 <td width="10">&nbsp;</td>
 <td valign="top">
-    <?php echo $this->Form->create('User', array('url' => 'address', 'id' => 'shippingAddress', 'method' => 'POST')); ?>
+    <?php echo $this->Form->create('Carts', array('url' => 'createUpdateAddress', 'id' => 'shippingAddress', 'method' => 'POST'));
+    echo $this->Form->hidden('Address.id', array('label' => false, 'div' => false, 'class' => 'form-control'));    
+    ?>
     <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0"
            class="flbtm">
         <tr>
@@ -250,7 +252,7 @@
             <td width="462" align="left" class="grey12">Date of Birth:<span class="red"></span></td>
         </tr>
         <tr>
-            <td align="left"><?php echo $this->Form->input('Address.cus_dob', array('label' => false, 'div' => false, 'class' => 'forgerttxt', 'id' => 'datepicker', 'type' => 'text', 'readonly' => true)); ?></td>
+            <td align="left"><?php echo $this->Form->input('Address.cus_dob', array('label' => false, 'div' => false, 'class' => 'forgerttxt',  'type' => 'text', 'readonly' => true)); ?></td>
         </tr>
         <tr>
             <td width="462" align="left" class="grey12">Phone Number:</td>
@@ -331,8 +333,11 @@
             <td align="left"><?php echo $this->Form->input('Address.house_no', array('label' => false, 'div' => false, 'class' => 'forgerttxt')); ?></td>
         </tr>
         <tr>
-            <td align="left"><input name="input2" type="button" value="Submit"
-                                    class="submit_b"></td>
+            <td align="left"><input name="input2" type="submit" value="Update Existing Address"
+                                    class="submit_b">
+            <input name="input3" type="submit" value="Create New Address"
+                                    class="submit_b">
+            </td>
         </tr>
         <tr>
             <td height="10" align="left"></td>
