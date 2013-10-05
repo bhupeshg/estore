@@ -32,7 +32,6 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController
 {
     public $uses = array('User');
-    public $components = array('AuthorizeNet');
 
     /**
      * Display Login form and validate a person for login
@@ -48,6 +47,7 @@ class UsersController extends AppController
                     $data = $this->User->find('first', array('conditions' => array('User.e_mail' => $this->request->data['User']['e_mail'], 'User.password' => $this->request->data['User']['password'], 'Customer.konda != ' => 'AD', 'Customer.status ' => '1')));
                     if ($data) {
                         $this->Session->write('uid', $data['User']['id']);
+                        $this->Session->write('cid', $data['Customer']['id']);
                         $this->Session->write('e_mail', $data['User']['e_mail']);
                         $this->Session->write('konda', $data['Customer']['konda']);
                         $this->Session->write('kunnr', $data['Customer']['kunnr']);
@@ -320,15 +320,18 @@ class UsersController extends AppController
             if ($this->Customer->save($data)) {
                 $this->Session->setFlash('You have successfully verified your account. Please login below with your credentials.', 'default', array(), 'success');
                 $this->redirect(array('controller' => 'users', 'action' => 'login'));
+                exit();
             } else {
                 pr($this->Customer->validationErrors);
                 die;
                 $this->Session->setFlash('Account can not be verified. Please try again.', 'default', array(), 'failure');
                 $this->redirect(array('controller' => 'users', 'action' => 'login'));
+                exit();
             }
         } else {
             $this->Session->setFlash('Account can not be verified. Please try again.', 'default', array(), 'failure');
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
+            exit();
         }
     }
 
@@ -650,6 +653,7 @@ class UsersController extends AppController
             $this->set('products', $products);
         } else {
             $this->redirect(array('controller' => 'users', 'action' => 'chooseLocation'));
+            exit();
         }
     }
 
@@ -681,6 +685,7 @@ class UsersController extends AppController
         $this->checkUserSession();
         $this->layout = 'admin';
         $this->redirect(array('controller' => 'users', 'action' => 'listCustomers', 'admin' => true));
+        exit();
     }
 
     public function admin_logout()
@@ -800,6 +805,7 @@ class UsersController extends AppController
             }
 
             $this->redirect(array('controller' => 'users', 'action' => 'listCustomers', 'admin' => true));
+            exit();
         } else {
             $user = $this->User->find('first', array('conditions' => array('User.id' => $id)));
             if ($user) {
@@ -817,6 +823,7 @@ class UsersController extends AppController
             } else {
                 $this->Session->setFlash('User can not be found. Please select right user.', 'default', array(), 'failure');
                 $this->redirect(array('controller' => 'users', 'action' => 'listCustomers', 'admin' => true));
+                exit();
             }
         }
     }
@@ -862,6 +869,7 @@ class UsersController extends AppController
                 $this->Session->setFlash('Address has been saved successfully.', 'default', array(),
                     'success');
                 $this->redirect(array('controller' => 'users', 'action' => 'addressBook'));
+                exit();
             } else {
                 $this->Session->setFlash('Address can not be saved. Please try again.', 'default', array(),
                     'failure');
@@ -892,15 +900,18 @@ class UsersController extends AppController
                 $this->Session->setFlash('Address has been deleted successfully.', 'default', array(),
                     'success');
                 $this->redirect(array('controller' => 'users', 'action' => 'addressBook'));
+                exit();
             } else {
                 $this->Session->setFlash('Please select the right address to delete.', 'default', array(),
                     'failure');
                 $this->redirect(array('controller' => 'users', 'action' => 'addressBook'));
+                exit();
             }
         } else {
             $this->Session->setFlash('Please select the right address to delete.', 'default', array(),
                 'failure');
             $this->redirect(array('controller' => 'users', 'action' => 'addressBook'));
+            exit();
         }
     }
 

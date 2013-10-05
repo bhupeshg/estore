@@ -100,7 +100,7 @@ stainless steel fasteners, E CODE, LOT CODE, socket head cap screws'
 </head>
 <body topmargin="10" leftmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
 <div class="black_overlay">
-  <div id="black_overlay_loading"><img src="/estore/img/ajax-loader.gif" alt="" /></div>
+  <div id="black_overlay_loading"><img src="/jkt/estore/img/ajax-loader.gif" alt="" /></div>
 </div>
 <div align="center">
     <table border="0" cellpadding="0" style="border-collapse: collapse" width="1002" height="20">

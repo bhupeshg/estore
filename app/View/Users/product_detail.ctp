@@ -222,10 +222,3 @@ if ($this->Paginator->sortDir() == 'asc') {
     <td>&nbsp;</td>
 </tr>
 </table>
-
-</div>
-
-</td>
-<td width="21" valign="top" background="/unbrako/img/rightbar.jpg"></td>
-</tr>
-</table>

@@ -250,6 +250,8 @@
                                 $_SESSION['tax'] = $tax;
                                 $_SESSION['total'] = $total;
                                 $_SESSION['subtotal'] = $total + $tax - $discount;
+                                $_SESSION['grand_total'] = $_SESSION['subtotal'];
+                                $_SESSION['trade_discount'] = $discount;
                                 ?>
                             </td>
                         </tr>
@@ -276,7 +278,7 @@
     </td>
 </tr>
 <?php
-echo $this->Form->create('Cart', array('controller' => 'carts', 'action' => 'payment', 'id' => 'orderReview'));
+echo $this->Form->create('Cart', array('controller' => 'carts', 'action' => 'orderReview', 'id' => 'orderReview'));
 ?>
 <tr>
     <td>

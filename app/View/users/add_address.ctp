@@ -5,7 +5,7 @@
         $('#AddressCountry').change(function () {
             $.ajax({
                 type: "GET",
-                url: "/unbrako/users/getStates/" + $(this).val(),
+                url: "/jkt/estore/users/getStates/" + $(this).val(),
                 success: function (data) {
                     $('#AddressBland').html(data);
                 }
@@ -17,7 +17,7 @@
             var country = $('#AddressCountry').val();
             $.ajax({
                 type: "GET",
-                url: "/unbrako/users/getCities/" + country + "/" + $(this).val(),
+                url: "/jkt/estore/users/getCities/" + country + "/" + $(this).val(),
                 success: function (data) {
                     $('#AddressCity').html(data);
                 }

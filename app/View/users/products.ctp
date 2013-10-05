@@ -19,7 +19,7 @@ if ($this->Paginator->sortDir() == 'asc') {
                 if (Math.floor(qty) == qty) {
                     $.ajax({
                         type: "GET",
-                        url: "/estore/carts/addToCart/" + matnr + "/" + qty + "/" + loc,
+                        url: "/jkt/estore/carts/addToCart/" + matnr + "/" + qty + "/" + loc,
                         success: function (result) {
                             var result = JSON.parse(result);
                             alert(result.msg);
@@ -265,12 +265,5 @@ if ($this->Paginator->sortDir() == 'asc') {
 </tr>
 <tr>
     <td>&nbsp;</td>
-</tr>
-</table>
-
-</div>
-
-</td>
-<td width="21" valign="top" background="/unbrako/img/rightbar.jpg"></td>
 </tr>
 </table>

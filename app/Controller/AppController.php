@@ -29,11 +29,12 @@ App::uses('CakeEmail', 'Network/Email');
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
- * @package		app.Controller
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * @package        app.Controller
+ * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
-    public $components = array('DebugKit.Toolbar','Session','Paginator');
+class AppController extends Controller
+{
+    public $components = array('DebugKit.Toolbar', 'Session', 'Paginator');
 
     function checkUserSession()
     {
@@ -45,8 +46,9 @@ class AppController extends Controller {
     function checkFrontUserSession()
     {
         if (!$this->Session->read("uid")) {
-            $this->Session->setFlash('Please login first to proceed further.','default',array(),'failure');
+            $this->Session->setFlash('Please login first to proceed further.', 'default', array(), 'failure');
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
+            exit();
         }
     }
 }

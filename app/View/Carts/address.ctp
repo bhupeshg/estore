@@ -5,7 +5,7 @@
         $('#AddressCountry').change(function () {
             $.ajax({
                 type: "GET",
-                url: "/estore/users/getStates/" + $(this).val(),
+                url: "/jkt/estore/users/getStates/" + $(this).val(),
                 success: function (data) {
                     $('#AddressBland').html(data);
                 }
@@ -15,7 +15,7 @@
         $('#CartsSelectAddress').change(function () {
             $.ajax({
                 type: "GET",
-                url: "/estore/carts/getAddress/" + $(this).val(),
+                url: "/jkt/estore/carts/getAddress/" + $(this).val(),
                 dataType: 'JSON',
                 success: function (data) {
                     $.each(data, function (index, element) {

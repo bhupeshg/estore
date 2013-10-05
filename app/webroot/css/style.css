@@ -158,7 +158,7 @@ h1.heading{ font-size:25px; color:#145a9f; margin:0px; padding:0px; font-weight:
 .breadcrum ul li a{ float:left; display:block; color:#717171; text-decoration:none; line-height:25px; padding-left:4px;}
 .breadcrum ul li a:hover{ float:left; display:block; color:#145ea5; text-decoration:none; line-height:25px; padding-left:4px;}
 
-
+h1.heading2{ font-size:25px; color:green; margin:0px; padding:0px; font-weight:normal;}
 
 /** fonts **/
 .black15{ font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#000; text-align:left;padding-bottom:5px;}
@@ -505,4 +505,9 @@ div#black_overlay_loading
 	top: 50%;
 	left: 50%;
 	z-index:1002;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #EEEEEE;
+    cursor: not-allowed;
 }
