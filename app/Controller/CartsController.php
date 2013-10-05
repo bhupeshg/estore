@@ -132,7 +132,8 @@ class CartsController extends AppController
         if ($id != null) {
             $data = $this->Address->read('', $id);
             if ($data) {
-                $states = $country->find('list', array('conditions' => array('Location.bland' => $data['Address']['bland']),
+                
+                $states = $country->find('list', array('conditions' => array('Location.land1' => $data['Address']['country']),
                     'fields' => array('bland', 'bezei')));
                 $a = '';
                 $a .= "<option value=\"\">--Select State--</option>";
@@ -310,4 +311,41 @@ class CartsController extends AppController
         print_r($response);
         die;
     }
+    
+    public function createUpdateAddress($id = null)
+    {
+        $this->checkFrontUserSession();
+        $this->loadModel('Address');
+
+        App::import('model', 'Location');
+        
+        if ($this->request->data) {
+            $this->request->data['Address']['user_id'] = $this->Session->read('uid');
+            $this->request->data['Address']['kunnr'] = $this->Session->read('kunnr');
+            if(isset($this->request->data['input3'])){
+                $this->Address->create();    
+                unset($this->request->data['Address']['id']);    
+            }
+            
+            if ($this->Address->save($this->request->data)) {
+                $this->Session->setFlash('Address has been saved successfully.', 'default', array(),
+                    'success');
+            } else {
+                $this->Session->setFlash('Address can not be saved. Please try again.', 'default', array(),
+                    'failure');
+            }
+            $this->redirect(array('controller' => 'carts', 'action' => 'address'));
+        } else {
+            $this->set('edit', false);
+            if ($id != null) {
+                $data = $this->Address->read('', $id);
+                if ($data) {
+                    $this->request->data = $data;
+                    $this->set('edit', true);
+                    $this->set('states', $country->find('list', array('conditions' => array('Location.bland' => $data['Address']['bland']), 'fields' => array('bland', 'bezei'))));
+                }
+            }
+        }
+    }
+    
 }
