@@ -175,7 +175,6 @@ class CartsController extends AppController
     public function orderReview()
     {
         $this->checkFrontUserSession();
-        $this->Session->write('ship_id', 2);
         if ($this->Cart->isCartEmpty($this->Session->read('uid'))) {
             $this->Session->setFlash("You have empty cart", 'default', array(), 'failure');
             $this->redirect(array('controller' => 'carts', 'action' => 'view'));
