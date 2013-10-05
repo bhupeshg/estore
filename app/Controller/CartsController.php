@@ -223,12 +223,18 @@ class CartsController extends AppController
             $this->Session->setFlash("You have empty cart", 'default', array(), 'failure');
             $this->redirect(array('controller' => 'carts', 'action' => 'view'));
             exit();
-        } elseif (!$this->request->data) {
-            $this->Session->setFlash("Please select Shipping first", 'default', array(), 'failure');
+        }
+        if ($this->request->data['is_ship']) {
+            if (!$this->Session->read('ship_id')) {
+                $this->Session->setFlash("Please select Shipping address first", 'default', array(), 'failure');
+                $this->redirect(array('controller' => 'carts', 'action' => 'address'));
+                exit();
+            }
+            $this->set('is_ship',$this->request->data['is_ship']);
+        } else {
+            $this->Session->setFlash("Please select order delivery method", 'default', array(), 'failure');
             $this->redirect(array('controller' => 'carts', 'action' => 'orderReview'));
             exit();
-        } else {
-
         }
     }
 
