@@ -44,8 +44,64 @@ stainless steel fasteners, E CODE, LOT CODE, socket head cap screws'
     echo $this->fetch('css');
     echo $this->fetch('script');
     ?>
+    <script type="text/javascript">
+    function show_overlay()
+    {
+      if($(".black_overlay").length != '0')
+      {
+            
+          if (window.innerHeight) 
+          {// Firefox
+              if(window.scrollMaxY)
+              {
+                  yWithScroll = window.innerHeight + window.scrollMaxY;
+                  xWithScroll = window.innerWidth + window.scrollMaxX;
+              }
+              else
+              {
+                  yWithScroll = window.innerHeight;
+                  xWithScroll = window.innerWidth ;
+              }
+          } 
+          else if (document.body.scrollHeight > document.body.offsetHeight)
+          { // all but Explorer Mac
+              yWithScroll = document.body.scrollHeight;
+              xWithScroll = document.body.scrollWidth;
+          }
+          else 
+          { // works in Explorer 6 Strict, Mozilla (not FF) and Safari
+              yWithScroll = document.body.offsetHeight;
+              xWithScroll = document.body.offsetWidth;
+          }
+          
+          $(".black_overlay").css({'height':$(document).height(),'width':$(document).width()});
+          $(".black_overlay").show();
+              
+      }
+    }
+    
+    function hidePopUp()
+    {
+        $(".black_overlay").hide();
+    }    
+    $(document).ready(function () {
+        
+        $( document ).ajaxStart(function() {
+            
+            show_overlay();
+        });
+        $( document ).ajaxComplete(function() {
+            
+            hidePopUp();
+        });
+        
+    });
+    </script>
 </head>
 <body topmargin="10" leftmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
+<div class="black_overlay">
+  <div id="black_overlay_loading"><img src="/estore/img/ajax-loader.gif" alt="" /></div>
+</div>
 <div align="center">
     <table border="0" cellpadding="0" style="border-collapse: collapse" width="1002" height="20">
         <tr>

@@ -5,7 +5,7 @@
         $('#CustomerCountry').change(function () {
             $.ajax({
                 type: "GET",
-                url: "/jkt/estore/users/getStates/" + $(this).val(),
+                url: "/estore/users/getStates/" + $(this).val(),
                 success: function (data) {
                     $('#CustomerBland').html(data);
                 }
