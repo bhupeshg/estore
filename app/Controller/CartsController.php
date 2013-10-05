@@ -322,13 +322,15 @@ class CartsController extends AppController
             }
             
             if ($this->Address->save($this->request->data)) {
+                $ship_id = (isset($this->request->data['Address']['id'])?$this->request->data['Address']['id']:$this->Address->getLastInsertId());
+                $this->Session->write('ship_id',$ship_id);
                 $this->Session->setFlash('Address has been saved successfully.', 'default', array(),
                     'success');
             } else {
                 $this->Session->setFlash('Address can not be saved. Please try again.', 'default', array(),
                     'failure');
             }
-            $this->redirect(array('controller' => 'carts', 'action' => 'address'));
+            $this->redirect(array('controller' => 'carts', 'action' => 'orderReview'));
         } else {
             $this->set('edit', false);
             if ($id != null) {
