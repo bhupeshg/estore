@@ -237,4 +237,4 @@ class AuthorizeNetComponent extends Component
 
     } // end chargeCard function
 }
-?> 
+?>
