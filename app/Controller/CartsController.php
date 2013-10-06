@@ -507,4 +507,18 @@ class CartsController extends AppController
     {
         $this->checkFrontUserSession();
     }
+
+    public function test()
+    {
+        App::uses('Xml', 'Utility');
+        /*$xmlString = 'http://localhost/xml/test.xml';
+        $xmlArray = Xml::toArray(Xml::build($xmlString));
+//        pr($xmlArray);die;*/
+
+        $this->loadModel('Customer');
+        $customers = $this->Customer->find('all');
+        $xmlObject = Xml::fromArray($customers);
+        //$xmlString = $xmlObject->asXML();
+        pr($xmlObject);die;
+    }
 }
