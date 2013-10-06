@@ -14,6 +14,12 @@ if ($this->Session->read('uid')) {
                 <?php echo $this->Html->link('My Account', array('controller' => 'users', 'action' => 'myAccount'))?>
             </li>
             <li>
+                <?php echo $this->Html->link('View Cart', array('controller' => 'carts', 'action' => 'view'))?>
+            </li>
+            <li>
+                <?php echo $this->Html->link('My Account', array('controller' => 'users', 'action' => 'addressBook'))?>
+            </li>
+            <li>
                 <?php echo $this->Html->link('Change Password', array('controller' => 'users', 'action' => 'changePassword'))?>
             </li>
             <li>

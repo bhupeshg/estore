@@ -62,8 +62,13 @@ class CartsController extends AppController
     {
         $this->layout = null;
         $this->checkFrontUserSession();
-        $this->Cart->updateCart($this->request->data['Cart']['id'], $this->request->data['Cart']['qty']);
-        $this->Session->setFlash("Cart has been updated successfully", 'default', array(), 'success');
+        if ((int)$this->request->data['Cart']['qty'] > 0) {
+            $this->Cart->updateCart($this->request->data['Cart']['id'], $this->request->data['Cart']['qty']);
+            $this->Session->setFlash("Cart has been updated successfully", 'default', array(), 'success');
+        } else {
+            $this->Session->setFlash("Please enter the valid quantity to update.", 'default', array(), 'failure');
+        }
+
         $this->redirect(array('controller' => 'carts', 'action' => 'view'));
         exit();
     }
